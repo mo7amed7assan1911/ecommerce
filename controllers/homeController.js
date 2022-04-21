@@ -2,34 +2,42 @@ const productModel = require("../models/productModel");
 const fs = require("fs");
 
 function getHomePage(req, res, next) {
-  const category = req.query.category;
-  pageNumber = parseInt(req.query.pageNumber);
-
-  const categoryies = [
-    "Baby Products",
-    "Beauty & Personal Care",
-    "Computing",
-    "Fashion",
-    "Health & Beauty",
-    "Phones & Tablets",
-    "Replacement Parts",
-  ];
-  if (categoryies.includes(category)) {
-    productModel
-      .getItemsByCategory(category, pageNumber)
-      .then((products) => {
-        const productData = saveProductsImage(products);
-        res.render("categoryPage", {
-          productData: productData,
-          pageNumber: pageNumber,
-          category: category,
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  } else {
+  if (!req.query.category) {
     res.render("home");
+  } else {
+    var category = req.query.category;
+    pageNumber = parseInt(req.query.pageNumber);
+    console.log(category);
+    if (category.includes("_")) {
+      category = category.replace("_", " & ");
+      console.log(category);
+    }
+    const categoryies = [
+      "Baby Products",
+      "Beauty & Personal Care",
+      "Computing",
+      "Fashion",
+      "Health & Beauty",
+      "Phones & Tablets",
+      "Replacement Parts",
+    ];
+    if (categoryies.includes(category)) {
+      productModel
+        .getItemsByCategory(category, pageNumber)
+        .then((products) => {
+          const productData = saveProductsImage(products);
+          console.log(productData[0]);
+
+          res.render("categoryPage", {
+            productData: productData,
+            pageNumber: pageNumber,
+            category: category,
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   }
 }
 
