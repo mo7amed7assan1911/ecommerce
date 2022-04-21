@@ -24,8 +24,6 @@ function getHomePage(req, res, next) {
           pageNumber: pageNumber,
           category: category,
         });
-        console.log(productData[0].imagePath);
-        console.log(productData[0].title);
       })
       .catch((err) => {
         console.log(err);
@@ -43,6 +41,7 @@ function saveProductsImage(products) {
     const imagePath = "product_" + i + ".jpg";
     fs.writeFileSync(fullPath, image);
     productData.push({
+      id: products[i]._id,
       title: products[i].title,
       price: products[i].price,
       imagePath: imagePath,
