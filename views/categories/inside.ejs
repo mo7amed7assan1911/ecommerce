@@ -16,7 +16,11 @@
     span a {
       color: black;
     }
+    button {
+      cursor: pointer;
+    }
   </style>
+
   <div class="small-container">
     <div class="row row-2">
       <h2>All Products</h2>
@@ -33,7 +37,30 @@
     <div class="row">
       <% for( let i = index; i < index + 4 ; i++ ) { %>
       <div class="col-4">
-        <img src="/images/<%= productData[i].imagePath %> " />
+        <form action="/product" method="post">
+          <input
+            type="hidden"
+            name="title"
+            value="<%= productData[i].title  %> "
+          />
+          <input
+            type="hidden"
+            name="price"
+            value="<%= productData[i].price  %> "
+          />
+          <input type="hidden" name="id" value="<%= productData[i].id  %> " />
+          <input
+            type="hidden"
+            name="imagePath"
+            value="<%= productData[i].imagePath  %> "
+          />
+
+          <input type="hidden" name="category" value="<%= category  %> " />
+
+          <button type="submit">
+            <img src="/images/<%= productData[i].imagePath %> " />
+          </button>
+        </form>
         <h4><%= productData[i].title %></h4>
         <b>$<%= productData[i].price %></b>
         <div class="rating">
@@ -50,6 +77,7 @@
     <% } %>
 
     <!--     =====================================    -->
+
     <div class="row">
       <div class="page-btn">
         <span class="active" id="1" onclick="myFunc('1')"
