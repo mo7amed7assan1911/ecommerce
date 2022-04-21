@@ -1,0 +1,58 @@
+<div class="account_page">
+  <div class="container">
+    <div class="row">
+      <div class="col-2">
+        <img src="/images/categories/Baby Products.jpg" width="100%" />
+      </div>
+      <div class="col-2">
+        <div class="form-container">
+          <div class="form-btn">
+            <span onclick="login()">login</span>
+            <span onclick="reg()">register</span>
+            <hr id="indicator" />
+          </div>
+
+          <form id="loginform" action="/login/login" method="post">
+            <input type="text" name="userName" placeholder="username" /> <br />
+            <input
+              type="password"
+              name="password"
+              placeholder="password"
+            /><br />
+            <button type="submit" class="btn">login</button><br />
+            <a href="#">forgot password</a>
+          </form>
+
+          <form id="regform" action="/login/signup" method="post">
+            <input type="text" name="userName" placeholder="username" /><br />
+            <input type="text" name="fullName" placeholder="Full name" /><br />
+
+            <input
+              type="password"
+              name="password"
+              placeholder="password"
+            /><br />
+
+            <button type="submit" class="btn">register</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  var loginform = document.getElementById("loginform");
+  var regform = document.getElementById("regform");
+  var indicator = document.getElementById("indicator");
+  function reg() {
+    regform.style.transform = "translateX(0px)";
+    loginform.style.transform = "translateX(0px)";
+    indicator.style.transform = "translateX(100px)";
+  }
+  function login() {
+    regform.style.transform = "translateX(300px)";
+    loginform.style.transform = "translateX(300px)";
+    indicator.style.transform = "translateX(0px)";
+  }
+</script>
