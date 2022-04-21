@@ -7,10 +7,8 @@ function getHomePage(req, res, next) {
   } else {
     var category = req.query.category;
     pageNumber = parseInt(req.query.pageNumber);
-    console.log(category);
     if (category.includes("_")) {
       category = category.replace("_", " & ");
-      console.log(category);
     }
     const categoryies = [
       "Baby Products",
@@ -26,8 +24,6 @@ function getHomePage(req, res, next) {
         .getItemsByCategory(category, pageNumber)
         .then((products) => {
           const productData = saveProductsImage(products);
-          console.log(productData[0]);
-
           res.render("categoryPage", {
             productData: productData,
             pageNumber: pageNumber,
