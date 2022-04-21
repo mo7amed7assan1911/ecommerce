@@ -1,0 +1,100 @@
+<!-- MAIN -->
+<main>
+  <style>
+    .active {
+      background-color: #ff523b;
+    }
+    .active a {
+      color: white;
+    }
+    h4 {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      height: 22px;
+      white-space: nowrap;
+    }
+    span a {
+      color: black;
+    }
+  </style>
+  <div class="small-container">
+    <div class="row row-2">
+      <h2>All Products</h2>
+      <select>
+        <option>Default sort</option>
+        <option>Sort by price</option>
+        <option>Sort by rating</option>
+        <option>Sort by sale</option>
+      </select>
+    </div>
+
+    <% for( let index = 1; index < 13; index += 4 ) { %>
+
+    <div class="row">
+      <% for( let i = index; i < index + 4 ; i++ ) { %>
+      <div class="col-4">
+        <img src="/images/<%= productData[i].imagePath %> " />
+        <h4><%= productData[i].title %></h4>
+        <b>$<%= productData[i].price %></b>
+        <div class="rating">
+          <i class="fa fa-star"></i>
+          <i class="fa fa-star"></i>
+          <i class="fa fa-star"></i>
+          <i class="fa fa-star"></i>
+          <i class="fa fa-star-o"></i>
+        </div>
+      </div>
+      <% } %>
+    </div>
+
+    <% } %>
+
+    <!--     =====================================    -->
+    <div class="row">
+      <div class="page-btn">
+        <span class="active" id="1" onclick="myFunc('1')"
+          ><a href="#">1</a></span
+        >
+        <span id="2" onclick="myFunc('2')"><a href="#">2</a></span>
+        <span id="3" onclick="myFunc('3')"><a href="#">3</a></span>
+        <span id="4" onclick="myFunc('4')"><a href="#">4</a></span>
+        <span id="5" onclick="myFuncNex('5')"><a href="#">&#8594;</a></span>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+  function myFuncNex() {
+    for (var i = 1; i < 5; i++) {
+      if (document.getElementById(i.toString()).className == "active") {
+        document.getElementById(i.toString()).className = "";
+        document.getElementById((i + 1).toString()).className += "active";
+        break;
+      }
+    }
+  }
+
+  function myFunc(id) {
+    for (var i = 1; i <= 5; i++) {
+      document.getElementById(i).classList.remove("active");
+    }
+    document.getElementById(id).className += "active";
+  }
+</script>
+
+<script>
+  //  remove active class
+  function removeActive() {
+    for (var i = 1; i <= 5; i++) {
+      document.getElementById(i).classList.remove("active");
+    }
+  }
+
+  //  add active class
+  function addActive(id) {
+    removeActive();
+    document.getElementById(id).className += " active";
+  }
+</script>
+<!-- MAIN -->
