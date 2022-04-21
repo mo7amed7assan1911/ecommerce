@@ -1,183 +1,44 @@
 <!-- MAIN -->
-<main>
-  <div class="small-container">
-    <div class="row row-2">
-      <h2>All Products</h2>
+<style>
+  .single-product {
+    margin-top: 40px;
+  }
+  form .btn {
+    width: 50%;
+  }
+</style>
+<div class="small-container single-product">
+  <div class="row">
+    <div class="col-2">
+      <img
+        src="/images/<%= product.imagePath %>"
+        width="100%"
+        id="product-img"
+      />
     </div>
-    <div class="row">
-      <div class="col-4">
-        <img src="/images/img.jpg" />
+    <div class="col-2">
+      <h5>Home / <%= product.category %></h5>
+      <br />
+      <h2><%= product.title %></h2>
+      <h4>$<%= product.price %></h4>
 
-        <h4>Red Printed T-shirt</h4>
-        <div class="rating">
-          <i class="fa fa-star"></i>
-          <i class="fa fa-star"></i>
-          <i class="fa fa-star"></i>
-          <i class="fa fa-star"></i>
-          <i class="fa fa-star-o"></i>
-        </div>
-        <p>$50.0</p>
-      </div>
-      <div class="col-4">
-        <img src="product-2.png" />
-        <h4>Red Printed T-shirt</h4>
-        <div class="rating">
-          <i class="fa fa-star"></i>
-          <i class="fa fa-star"></i>
-          <i class="fa fa-star"></i>
-          <i class="fa fa-star"></i>
-          <i class="fa fa-star-o"></i>
-        </div>
-        <p>$50.0</p>
-      </div>
-      <div class="col-4">
-        <img src="product-2.png" />
+      <form action="/product/addToCart" method="post">
+        <input type="hidden" name="id" value="<%= product.id %> " />
+        <input type="number" name="amount" value="1" min="1" />
+        <button type="submit" class="btn">Add To Cart</button>
+      </form>
 
-        <h4>Red Printed T-shirt</h4>
-        <div class="rating">
-          <i class="fa fa-star"></i>
-          <i class="fa fa-star"></i>
-          <i class="fa fa-star"></i>
-          <i class="fa fa-star-half"></i>
-          <i class="fa fa-star-o"></i>
-        </div>
-        <p>$50.0</p>
-      </div>
-      <div class="col-4">
-        <img src="product-2.png" />
-        <h4>Red Printed T-shirt</h4>
-        <div class="rating">
-          <i class="fa fa-star"></i>
-          <i class="fa fa-star"></i>
-          <i class="fa fa-star"></i>
-          <i class="fa fa-star-half"></i>
-          <i class="fa fa-star-o"></i>
-        </div>
-        <p>$50.0</p>
-      </div>
+      <br />
 
-      <div class="col-4">
-        <img src="product-2.png" />
-        <h4>Red Printed T-shirt</h4>
-        <div class="rating">
-          <i class="fa fa-star"></i>
-          <i class="fa fa-star"></i>
-          <i class="fa fa-star"></i>
-          <i class="fa fa-star-half"></i>
-          <i class="fa fa-star-o"></i>
-        </div>
-        <p>$50.0</p>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-4">
-        <img src="product-2.png" />
-        >
-        <h4>Red Printed T-shirt</h4>
-        <div class="rating">
-          <i class="fa fa-star"></i>
-          <i class="fa fa-star"></i>
-          <i class="fa fa-star"></i>
-          <i class="fa fa-star"></i>
-          <i class="fa fa-star-o"></i>
-        </div>
-        <p>$50.0</p>
-      </div>
-      <div class="col-4">
-        <img src="product-2.png" />
-
-        <h4>Red Printed T-shirt</h4>
-        <div class="rating">
-          <i class="fa fa-star"></i>
-          <i class="fa fa-star"></i>
-          <i class="fa fa-star"></i>
-          <i class="fa fa-star"></i>
-          <i class="fa fa-star-o"></i>
-        </div>
-        <p>$50.0</p>
-      </div>
-      <div class="col-4">
-        <img src="product-2.png" />
-        <h4>Red Printed T-shirt</h4>
-        <div class="rating">
-          <i class="fa fa-star"></i>
-          <i class="fa fa-star"></i>
-          <i class="fa fa-star"></i>
-          <i class="fa fa-star-half"></i>
-          <i class="fa fa-star-o"></i>
-        </div>
-        <p>$50.0</p>
-      </div>
-      <div class="col-4">
-        <img src="product-2.png" />
-        <h4>Red Printed T-shirt</h4>
-        <div class="rating">
-          <i class="fa fa-star"></i>
-          <i class="fa fa-star"></i>
-          <i class="fa fa-star"></i>
-          <i class="fa fa-star-half"></i>
-          <i class="fa fa-star-o"></i>
-        </div>
-        <p>$50.0</p>
-      </div>
-      <div class="row">
-        <div class="col-4">
-          <img src="product-2.png" />
-          <h4>Red Printed T-shirt</h4>
-          <div class="rating">
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star-o"></i>
-          </div>
-          <p>$50.0</p>
-        </div>
-        <div class="col-4">
-          <img src="product-2.png" />
-          <h4>Red Printed T-shirt</h4>
-          <div class="rating">
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star-o"></i>
-          </div>
-          <p>$50.0</p>
-        </div>
-        <div class="col-4">
-          <img src="product-2.png" />
-          <h4>Red Printed T-shirt</h4>
-          <div class="rating">
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star-half"></i>
-            <i class="fa fa-star-o"></i>
-          </div>
-          <p>$50.0</p>
-        </div>
-        <div class="col-4">
-          <img src="product-2.png" />
-          <h4>Red Printed T-shirt</h4>
-          <div class="rating">
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star-half"></i>
-            <i class="fa fa-star-o"></i>
-          </div>
-          <p>$50.0</p>
-        </div>
-      </div>
-      <div class="page-btn">
-        <span>1</span>
-        <span>2</span>
-        <span>3</span>
-        <span>4</span>
-        <span>&#8594;</span>
-      </div>
+      <h3>Product Details <i class="fa fa-indent"></i></h3>
+      <br />
+      <p>
+        Give your summer wardrobe a style upgrade with HRX Men's active T-shirt.
+        Team it with a pair of shorts for your morining workout or a denims for
+        an evening out with the guys.
+      </p>
     </div>
   </div>
-</main>
+</div>
+
 <!-- MAIN -->
