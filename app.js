@@ -25,7 +25,7 @@ const session = require("express-session");
 const sessionStore = require("connect-mongodb-session")(session);
 const flash = require("connect-flash");
 const store = new sessionStore({
-  uri: process.env.DB_URL,
+  uri: process.env.DATABASE_URL,
   collection: "sessions",
 });
 
@@ -46,7 +46,7 @@ const productRoutes = require("./routes/productRoutes");
 // const userRoutes = require("./routes/userRoutes");
 // const adminRoutes = require("./routes/adminRoutes");
 // const cartRoutes = require("./routes/cartRoutes");
-// const loginRoutes = require("./routes/loginRoutes");
+const loginRoutes = require("./routes/loginRoutes");
 
 // ========= use routes ==================
 app.use("/", homeRout);
@@ -54,7 +54,7 @@ app.use("/product", productRoutes);
 // app.use("/user", userRoutes);
 // app.use("/admin", adminRoutes);
 // app.use("/cart", cartRoutes);
-// app.use("/login", loginRoutes);
+app.use("/login", loginRoutes);
 
 //
 app.listen(port, (err) => {
