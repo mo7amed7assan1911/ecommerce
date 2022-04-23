@@ -37,6 +37,26 @@ function getItemsByCategory(category, pageNumber) {
       });
   });
 }
+function editProduct(product) {}
+
+function deleteProduct(productId) {
+  return new Promise((resolve, reject) => {
+    connection()
+      .then(async () => {
+        return await item.deleteOne({ _id: productId });
+      })
+      .then(() => {
+        mongoose.disconnect();
+        resolve("Product deleted successfully");
+      })
+      .catch((error) => {
+        mongoose.disconnect();
+        reject(error.messages);
+      });
+  });
+}
 
 exports.getItemsByCategory = getItemsByCategory;
+exports.editProduct = editProduct;
+exports.deleteProduct = deleteProduct;
 exports.item = item;

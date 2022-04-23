@@ -6,12 +6,44 @@
   form .btn {
     width: 50%;
   }
+  textarea {
+    width: 470px;
+    height: 150px;
+    resize: none;
+    font-size: 20px;
+    padding: 10px;
+  }
+  form .price {
+    width: 105px;
+    height: 60px;
+    padding-left: 20px;
+  }
+  form .delete {
+    width: 470px;
+    height: 60px;
+    background-color: hsl(1deg 61% 47%);
+    font-size: 20px;
+  }
+  form .edit {
+    width: 160px;
+    height: 50px;
+    background-color: hsl(35deg 83% 53%);
+    font-size: 20px;
+  }
+  form .file {
+    width: 135px;
+    height: 50px;
+    cursor: pointer;
+    font-size: 15pt;
+    border: none;
+  }
 </style>
+
 <div class="small-container single-product">
   <div class="row">
     <div class="col-2">
       <img
-        src="/images/<%= product.imagePath %>"
+        src="/images/category/<%= product.imagePath %>"
         width="100%"
         id="product-img"
       />
@@ -19,23 +51,41 @@
     <div class="col-2">
       <h5>Home / <%= product.category %></h5>
       <br />
+      <% if (isAdmin) { %>
+      <form
+        action="/product/editProduct"
+        method="post"
+        enctype="multipart/form-data"
+      >
+        <textarea name="title"><%= product.title %></textarea>
+        <input
+          class="price"
+          type="number"
+          name="price"
+          value="<%= product.price %>"
+        />
+        <input type="file" class="file" name="image" />
+        <input type="hidden" name="id" value="<%= product.id %>" />
+        <button type="submit" class="edit btn">Edit</button>
+      </form>
+      <br /><br />
+      <hr />
+      <br />
+
+      <form action="/product/deleteProduct" method="post">
+        <input type="hidden" name="id" value="<%= product.id %>" />
+        <button type="submit" class="delete btn">Delete this product</button>
+      </form>
+
+      <% }else{ %>
       <h2><%= product.title %></h2>
       <h4>$ <%= product.price %></h4>
-
       <form action="/cart/addToCart" method="post">
         <input type="hidden" name="id" value="<%= product.id %>" />
         <button type="submit" class="btn">Add To Cart</button>
       </form>
-
+      <% } %>
       <br />
-
-      <h3>Product Details <i class="fa fa-indent"></i></h3>
-      <br />
-      <p>
-        Give your summer wardrobe a style upgrade with HRX Men's active T-shirt.
-        Team it with a pair of shorts for your morining workout or a denims for
-        an evening out with the guys.
-      </p>
     </div>
   </div>
 </div>
