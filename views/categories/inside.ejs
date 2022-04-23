@@ -19,11 +19,17 @@
     button {
       cursor: pointer;
     }
+    .small-container {
+      margin-top: -50px;
+    }
+    .row-2 {
+      margin-top: 50px;
+    }
   </style>
 
   <div class="small-container">
     <div class="row row-2">
-      <h2>All Products</h2>
+      <h2><%= category %></h2>
       <select>
         <option>Default sort</option>
         <option>Sort by price</option>
@@ -48,7 +54,7 @@
             name="price"
             value="<%= productData[i].price  %> "
           />
-          <input type="hidden" name="id" value="<%= productData[i].id  %> " />
+          <input type="hidden" name="id" value="<%= productData[i].id %>" />
           <input
             type="hidden"
             name="imagePath"

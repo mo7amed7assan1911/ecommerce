@@ -39,3 +39,4 @@ function getItemsByCategory(category, pageNumber) {
 }
 
 exports.getItemsByCategory = getItemsByCategory;
+exports.item = item;

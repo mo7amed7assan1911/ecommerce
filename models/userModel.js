@@ -1,6 +1,9 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const res = require("express/lib/response");
+const e = require("connect-flash");
+const productModel = require("../models/productModel");
+const { reject } = require("bcrypt/promises");
 
 const dbURL = process.env.DATABASE_URL;
 function connection() {
@@ -73,5 +76,123 @@ function postLogin(user) {
   });
 }
 
+function getCartProducts(userId) {
+  return new Promise((resolve, reject) => {
+    connection()
+      .then(async () => {
+        return await userModel.findOne({ _id: userId }, { cart: 1, _id: 0 });
+      })
+      .then((cartObj) => {
+        var itemsId = [];
+        cartObj.cart.forEach((element) => {
+          itemsId.push(mongoose.Types.ObjectId(element));
+        });
+        return itemsId;
+      })
+      .then(async (itemsId) => {
+        await productModel.item
+          .find({ _id: { $in: itemsId } }, { title: 1, price: 1, image: 1 })
+          .then((items) => {
+            mongoose.disconnect();
+            resolve(items);
+          })
+          .catch((error) => {
+            mongoose.disconnect();
+            reject(error.message);
+          });
+      })
+      .catch((error) => {
+        mongoose.disconnect();
+        reject(error.message);
+      });
+  });
+}
+
+function addToCart(userId, newProduct) {
+  return new Promise((resolve, reject) => {
+    connection()
+      .then(async () => {
+        return await userModel.findOne({ _id: userId }, { cart: 1, _id: 0 });
+      })
+      .then((cartObj) => {
+        var cart = cartObj.cart;
+        if (cart.length < 3) {
+          if (!cart.includes(newProduct)) {
+            cart.push(newProduct);
+            return cart;
+          } else {
+            mongoose.disconnect();
+            reject("This product is already in your cart");
+          }
+        } else {
+          mongoose.disconnect();
+          reject("The cart is full");
+        }
+      })
+      .then(async (newCart) => {
+        if (newCart) {
+          await userModel.updateOne(
+            { _id: userId },
+            { $set: { cart: newCart } }
+          );
+          mongoose.disconnect();
+          resolve("product added to cart");
+        }
+      })
+      .catch((error) => {
+        mongoose.disconnect();
+        reject(error.message);
+      });
+  });
+}
+
+function removeFromCart(userId, newProduct) {
+  return new Promise((resolve, reject) => {
+    connection()
+      .then(async () => {
+        return await userModel.findOne({ _id: userId }, { cart: 1, _id: 0 });
+      })
+      .then((cartObj) => {
+        var cart = cartObj.cart;
+        cart.splice(cart.indexOf(newProduct), 1);
+        return cart;
+      })
+      .then(async (newCart) => {
+        if (newCart) {
+          await userModel.updateOne(
+            { _id: userId },
+            { $set: { cart: newCart } }
+          );
+          mongoose.disconnect();
+          resolve("product removed from cart");
+        }
+      })
+      .catch((error) => {
+        mongoose.disconnect();
+        reject(error.message);
+      });
+  });
+}
+function buyCart(userId, newProduct) {
+  return new Promise((resolve, reject) => {
+    connection()
+      .then(async () => {
+        return await userModel.findOneAndUpdate({ _id: userId }, { cart: [] });
+      })
+      .then(() => {
+        mongoose.disconnect();
+        resolve("all products removed from cart");
+      })
+      .catch((error) => {
+        mongoose.disconnect();
+        reject(error.message);
+      });
+  });
+}
+
 exports.saveUser = saveUser;
 exports.postLogin = postLogin;
+exports.getCartProducts = getCartProducts;
+exports.addToCart = addToCart;
+exports.removeFromCart = removeFromCart;
+exports.buyCart = buyCart;

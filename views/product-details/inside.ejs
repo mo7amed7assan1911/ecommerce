@@ -20,11 +20,11 @@
       <h5>Home / <%= product.category %></h5>
       <br />
       <h2><%= product.title %></h2>
-      <h4>$<%= product.price %></h4>
+      <h4>$ <%= product.price %></h4>
 
-      <form action="/product/addToCart" method="post">
-        <input type="hidden" name="id" value="<%= product.id %> " />
-        <input type="number" name="amount" value="1" min="1" />
+      <form action="/cart/addToCart" method="post">
+        <input type="hidden" name="id" value="<%= product.id %>" />
+        <!-- <input type="number" name="amount" value="1" min="1" /> -->
         <button type="submit" class="btn">Add To Cart</button>
       </form>
 

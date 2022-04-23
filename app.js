@@ -32,7 +32,7 @@ const store = new sessionStore({
 app.use(
   session({
     secret: "secret",
-    cookie: { maxAge: 1000 * 60 * 60 },
+    cookie: { maxAge: 24 * 60 * 60 * 1000 },
     saveUninitialized: false,
     resave: true,
     store: store,
@@ -45,7 +45,7 @@ const homeRout = require("./routes/homeRout");
 const productRoutes = require("./routes/productRoutes");
 // const userRoutes = require("./routes/userRoutes");
 // const adminRoutes = require("./routes/adminRoutes");
-// const cartRoutes = require("./routes/cartRoutes");
+const cartRoutes = require("./routes/cartRoutes");
 const loginRoutes = require("./routes/loginRoutes");
 
 // ========= use routes ==================
@@ -53,7 +53,7 @@ app.use("/", homeRout);
 app.use("/product", productRoutes);
 // app.use("/user", userRoutes);
 // app.use("/admin", adminRoutes);
-// app.use("/cart", cartRoutes);
+app.use("/cart", cartRoutes);
 app.use("/login", loginRoutes);
 
 //

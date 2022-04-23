@@ -399,6 +399,67 @@ form a {
   transform: translateX(100px);
   transition: transform 1s;
 }
+
+/*--------------------cart items ----------------------- */
+.cart-page {
+  margin: 80px auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.cart-info {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+th {
+  text-align: left;
+  padding: 5px;
+  color: white;
+  background: #ff5555;
+  font-weight: bold;
+}
+
+td {
+  padding: 10px 5px;
+}
+
+td input {
+  width: 40px;
+  height: 30px;
+  padding: 5px;
+  color: #ff5555;
+  font-size: 12px;
+}
+
+td img {
+  width: 80px;
+  height: 80px;
+  margin-right: 30px;
+}
+
+.total-price {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.total-price table {
+  border-top: 3px solid #ff5555;
+  width: 100%;
+  max-width: 400px;
+}
+
+td:last-child {
+  text-align: right;
+}
+
+th:last-child {
+  text-align: right;
+}
+/* --------------------------------------------------------------------- */
 /* ......................media query for menu........................... */
 @media only screen and(max-width: 800px) {
   nav ul {
