@@ -37,7 +37,29 @@ function getItemsByCategory(category, pageNumber) {
       });
   });
 }
-function editProduct(product) {}
+function editProduct(product) {
+  return new Promise((resolve, reject) => {
+    connection()
+      .then(async () => {
+        return await item.updateOne(
+          { _id: id },
+          {
+            title: product.title,
+            price: product.price,
+            image: product.imageString,
+          }
+        );
+      })
+      .then((newProduct) => {
+        mongoose.disconnect();
+        resolve(newProduct);
+      })
+      .catch((error) => {
+        mongoose.disconnect();
+        reject(error);
+      });
+  });
+}
 
 function deleteProduct(productId) {
   return new Promise((resolve, reject) => {

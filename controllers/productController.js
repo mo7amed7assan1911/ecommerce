@@ -16,7 +16,21 @@ function getProductPage(req, res, next) {
     fullName: req.session.fullName,
   });
 }
-function editProduct(req, res) {}
+function editProduct(req, res) {
+  const title = req.body.title;
+  const price = req.body.price;
+  const imageForm = req.files.image;
+  const imageString = imageForm.data.toString("hex");
+
+  productModel
+    .editProduct({ title, price, imageString })
+    .then((product) => {
+      console.log(product);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}
 
 function deleteProduct(req, res) {
   const productId = req.body.id;
