@@ -48,7 +48,7 @@ function saveProductsImage(products) {
   const productData = [];
   for (let i = 0; i < products.length; i++) {
     image = products[i].image;
-    const fullPath = "./public/images/" + "product_" + i + ".jpg"; //jpg png
+    const fullPath = "./public/images/category/" + "product_" + i + ".jpg"; //jpg png
     const imagePath = "product_" + i + ".jpg";
     fs.writeFileSync(fullPath, image);
     productData.push({
