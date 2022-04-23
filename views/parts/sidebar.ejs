@@ -1,67 +1,103 @@
 <!-- SIDEBAR -->
 <section id="sidebar">
   <a href="#" class="brand">
-    <i class="bx bxs-smile"></i>
-    <span class="text">Dashboard</span>
+    <i class="bx bxs-cart-alt"></i>
+    <span class="text"> <%= fullName %> </span>
   </a>
+
   <ul class="side-menu top">
     <li class="active">
-      <a href="dashboard.html">
-        <i class="bx bxs-dashboard"></i>
-        <span class="text">view userss</span>
+      <a href="/">
+        <i class="bx bx-home-alt"></i>
+        <span class="text">Home</span>
       </a>
     </li>
+
     <li>
-      <a href="Addproduct.html">
-        <i class="bx bxs-shopping-bag-alt"></i>
-        <span class="text">add product</span>
+      <a href="#">
+        <i class="bx bx-laptop"></i>
+        <span class="text">Computing</span>
       </a>
     </li>
+
     <li>
       <a href="#">
         <i class="bx bxs-doughnut-chart"></i>
-        <span class="text">remove product</span>
+        <span class="text">Fashion</span>
       </a>
     </li>
+
     <li>
       <a href="#">
-        <i class="bx bxs-message-dots"></i>
-        <span class="text">Message</span>
+        <i class="bx bx-mobile-alt"></i>
+        <span class="text">Phones & Tablets</span>
       </a>
     </li>
+
     <li>
       <a href="#">
-        <i class="bx bxs-group"></i>
-        <span class="text">Team</span>
+        <i class="bx bxs-doughnut-chart"></i>
+        <span class="text">Health & Beauty</span>
       </a>
     </li>
-  </ul>
-  <ul class="side-menu">
+
     <li>
       <a href="#">
-        <i class="bx bxs-cog"></i>
-        <span class="text">Settings</span>
+        <i class="bx bxs-doughnut-chart"></i>
+        <span class="text">Baby Products</span>
       </a>
     </li>
+
+    <% if (isAdmin) { %>
     <li>
-      <a href="/login">
-        <i class="bx bxs-log-in-circle"></i>
-        <span class="text">login</span>
+      <a href="/admin/Addproduct">
+        <i class="bx bxs-shopping-bag-alt"></i>
+        <span class="text">Add product</span>
       </a>
     </li>
+
     <li>
-      <a href="">
+      <a href="#">
+        <i class="bx bxs-doughnut-chart"></i>
+        <span class="text">Orders</span>
+      </a>
+    </li>
+
+    <% } else{ %>
+
+    <li>
+      <a href="/cart">
         <i class="bx bxs-cart-alt"></i>
         <span class="text">cart</span>
       </a>
     </li>
 
     <li>
+      <a href="#">
+        <i class="bx bxs-doughnut-chart"></i>
+        <span class="text">Orders</span>
+      </a>
+    </li>
+
+    <% } %>
+  </ul>
+
+  <ul class="side-menu">
+    <% if (isLoggedIn) { %>
+    <li>
       <a href="/login/logout" class="logout">
         <i class="bx bxs-log-out-circle"></i>
         <span class="text">Logout</span>
       </a>
     </li>
+    <% }else{ %>
+    <li>
+      <a href="/login">
+        <i class="bx bxs-log-in-circle"></i>
+        <span class="text">login</span>
+      </a>
+    </li>
+    <% } %>
   </ul>
 </section>
 

@@ -44,7 +44,7 @@ app.use(flash());
 const homeRout = require("./routes/homeRout");
 const productRoutes = require("./routes/productRoutes");
 // const userRoutes = require("./routes/userRoutes");
-// const adminRoutes = require("./routes/adminRoutes");
+const adminRoutes = require("./routes/adminRoutes");
 const cartRoutes = require("./routes/cartRoutes");
 const loginRoutes = require("./routes/loginRoutes");
 
@@ -52,7 +52,7 @@ const loginRoutes = require("./routes/loginRoutes");
 app.use("/", homeRout);
 app.use("/product", productRoutes);
 // app.use("/user", userRoutes);
-// app.use("/admin", adminRoutes);
+app.use("/admin", adminRoutes);
 app.use("/cart", cartRoutes);
 app.use("/login", loginRoutes);
 

@@ -8,6 +8,9 @@ function postProduct(req, res, next) {
 function getProductPage(req, res, next) {
   res.render("product-details", {
     product: product,
+    isAdmin: req.session.isAdmin,
+    isLoggedIn: req.session.userId,
+    fullName: req.session.fullName,
   });
 }
 

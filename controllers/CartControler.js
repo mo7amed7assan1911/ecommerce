@@ -8,7 +8,12 @@ function getCartPage(req, res, next) {
     .getCartProducts(req.session.userId)
     .then((cart) => {
       const cartItems = saveItemsImage(cart);
-      res.render("cart", { cartItems });
+      res.render("cart", {
+        cartItems,
+        isAdmin: req.session.isAdmin,
+        isLoggedIn: req.session.userId,
+        fullName: req.session.fullName,
+      });
     })
     .catch((error) => {
       console.log(error);

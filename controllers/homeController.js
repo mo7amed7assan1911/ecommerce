@@ -3,7 +3,11 @@ const fs = require("fs");
 
 function getHomePage(req, res, next) {
   if (!req.query.category) {
-    res.render("home");
+    res.render("home", {
+      isAdmin: req.session.isAdmin,
+      isLoggedIn: req.session.userId,
+      fullName: req.session.fullName,
+    });
   } else {
     var category = req.query.category;
     pageNumber = parseInt(req.query.pageNumber);
@@ -28,6 +32,9 @@ function getHomePage(req, res, next) {
             productData: productData,
             pageNumber: pageNumber,
             category: category,
+            isAdmin: req.session.isAdmin,
+            isLoggedIn: req.session.userId,
+            fullName: req.session.fullName,
           });
         })
         .catch((err) => {
