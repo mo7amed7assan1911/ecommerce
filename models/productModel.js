@@ -1,3 +1,4 @@
+const res = require("express/lib/response");
 const mongoose = require("mongoose");
 const dbURL = process.env.DATABASE_URL;
 function connection() {
@@ -37,20 +38,47 @@ function getItemsByCategory(category, pageNumber) {
       });
   });
 }
+
+function getProductDetails(productId) {
+  return new Promise((resolve, reject) => {
+    connection()
+      .then(async () => {
+        return await item.findOne(
+          { _id: productId },
+          {
+            title: 1,
+            price: 1,
+            image: 1,
+            category: 1,
+          }
+        );
+      })
+      .then((product) => {
+        mongoose.disconnect();
+        resolve(product);
+      })
+      .catch((error) => {
+        mongoose.disconnect();
+        reject(error);
+      });
+  });
+}
+
 function editProduct(product) {
   return new Promise((resolve, reject) => {
     connection()
       .then(async () => {
         return await item.updateOne(
-          { _id: id },
+          { _id: product.id },
           {
-            title: product.title,
+            // title: product.title,
             price: product.price,
-            image: product.imageString,
+            // image: product.image,
           }
         );
       })
       .then((newProduct) => {
+        console.log(newProduct);
         mongoose.disconnect();
         resolve(newProduct);
       })
@@ -79,6 +107,7 @@ function deleteProduct(productId) {
 }
 
 exports.getItemsByCategory = getItemsByCategory;
+exports.getProductDetails = getProductDetails;
 exports.editProduct = editProduct;
 exports.deleteProduct = deleteProduct;
 exports.item = item;

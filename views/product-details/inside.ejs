@@ -7,10 +7,10 @@
     width: 50%;
   }
   textarea {
-    width: 470px;
-    height: 150px;
+    width: 465px;
+    height: 86px;
     resize: none;
-    font-size: 20px;
+    font-size: 13px;
     padding: 10px;
   }
   form .price {
@@ -19,18 +19,21 @@
     padding-left: 20px;
   }
   form .delete {
-    width: 470px;
-    height: 60px;
+    margin-left: 35px;
+    width: 400px;
+    height: 50px;
     background-color: hsl(1deg 61% 47%);
     font-size: 20px;
   }
   form .edit {
-    width: 160px;
+    margin-left: 10px;
+    width: 150px;
     height: 50px;
     background-color: hsl(35deg 83% 53%);
     font-size: 20px;
   }
   form .file {
+    margin-left: 20px;
     width: 135px;
     height: 50px;
     cursor: pointer;
@@ -43,9 +46,10 @@
   <div class="row">
     <div class="col-2">
       <img
-        src="/images/category/<%= product.imagePath %>"
+        src="/images/productDetails/<%= product.imagePath %>"
         width="100%"
         id="product-img"
+        alt="No Image"
       />
     </div>
     <div class="col-2">
@@ -66,11 +70,10 @@
         />
         <input type="file" class="file" name="image" />
         <input type="hidden" name="id" value="<%= product.id %>" />
-        <button type="submit" class="edit btn">Edit</button>
+        <button type="submit" class="edit btn">Save</button>
       </form>
-      <br /><br />
-      <hr />
       <br />
+      <hr />
 
       <form action="/product/deleteProduct" method="post">
         <input type="hidden" name="id" value="<%= product.id %>" />
@@ -79,7 +82,7 @@
 
       <% }else{ %>
       <h2><%= product.title %></h2>
-      <h4>$ <%= product.price %></h4>
+      <h4>EGP <%= product.price %></h4>
       <form action="/cart/addToCart" method="post">
         <input type="hidden" name="id" value="<%= product.id %>" />
         <button type="submit" class="btn">Add To Cart</button>

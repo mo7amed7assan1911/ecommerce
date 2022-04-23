@@ -43,26 +43,8 @@
     <div class="row">
       <% for( let i = index; i < index + 4 ; i++ ) { %>
       <div class="col-4">
-        <form action="/product" method="post">
-          <input
-            type="hidden"
-            name="title"
-            value="<%= productData[i].title  %> "
-          />
-          <input
-            type="hidden"
-            name="price"
-            value="<%= productData[i].price  %> "
-          />
+        <form action="/product" method="get">
           <input type="hidden" name="id" value="<%= productData[i].id %>" />
-          <input
-            type="hidden"
-            name="imagePath"
-            value="<%= productData[i].imagePath  %> "
-          />
-
-          <input type="hidden" name="category" value="<%= category  %> " />
-
           <button type="submit">
             <img src="/images/category/<%= productData[i].imagePath %> " />
           </button>

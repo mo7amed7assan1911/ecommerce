@@ -1,35 +1,46 @@
-// declare global variable for product
 const mongoose = require("mongoose");
 const productModel = require("../models/productModel");
-var product = {};
-function postProduct(req, res, next) {
-  product = req.body;
-  res.redirect(`product`);
-}
+const fs = require("fs");
 
 function getProductPage(req, res, next) {
-  product.price = +product.price;
-  res.render("product-details", {
-    product: product,
-    isAdmin: req.session.isAdmin,
-    isLoggedIn: req.session.userId,
-    fullName: req.session.fullName,
-  });
+  const productForm = req.query;
+  const productId = mongoose.Types.ObjectId(productForm.id);
+  console.log(productId);
+  productModel
+    .getProductDetails(productId)
+    .then((product) => {
+      const productDate = saveProductImage(product);
+      console.log(productDate);
+      res.render("product-details", {
+        product: productDate[0],
+        isAdmin: req.session.isAdmin,
+        isLoggedIn: req.session.userId,
+        fullName: req.session.fullName,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 }
 function editProduct(req, res) {
   const title = req.body.title;
   const price = req.body.price;
-  const imageForm = req.files.image;
-  const imageString = imageForm.data.toString("hex");
-
-  productModel
-    .editProduct({ title, price, imageString })
-    .then((product) => {
-      console.log(product);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  const id = req.body.id;
+  var image;
+  if (req.files) {
+    const imageForm = req.files.image;
+    image = imageForm.data.toString("hex");
+  }
+  console.log(image);
+  // productModel
+  //   .editProduct({ id, title, price, image })
+  //   .then((product) => {
+  //     console.log(product);
+  //     console.log(`new price >>> ${product.price}`);
+  //   })
+  //   .catch((error) => {
+  //     console.log(error);
+  //   });
 }
 
 function deleteProduct(req, res) {
@@ -47,7 +58,23 @@ function deleteProduct(req, res) {
     });
 }
 
-exports.postProduct = postProduct;
+function saveProductImage(product) {
+  const productData = [];
+  image = product.image;
+  const fullPath =
+    "./public/images/productDetails/" + "productDetails" + ".jpg"; //jpg png
+  const imagePath = "productDetails" + ".jpg";
+  fs.writeFileSync(fullPath, image);
+  productData.push({
+    id: product.id,
+    title: product.title,
+    price: product.price,
+    imagePath: imagePath,
+  });
+
+  return productData;
+}
+
 exports.getProductPage = getProductPage;
 exports.editProduct = editProduct;
 exports.deleteProduct = deleteProduct;
