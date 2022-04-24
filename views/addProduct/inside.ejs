@@ -1,0 +1,89 @@
+<!-- MAIN -->
+
+<main>
+  <div class="table-data">
+    <div class="order">
+      <div class="head">
+        <h3>add product</h3>
+      </div>
+      <form
+        action="/product/addProduct"
+        ,
+        method="post"
+        ,
+        enctype="multipart/form-data"
+      >
+        <table>
+          <tbody>
+            <tr class="image-row">
+              <td>
+                <label for="">add img file: </label>
+              </td>
+              <td>
+                <input
+                  class="file-uplode-input"
+                  type="file"
+                  name="image"
+                  required
+                />
+              </td>
+              <td><p>choose an img in type of jpg</p></td>
+            </tr>
+
+            <tr class="price-row">
+              <td>
+                <label for="">add the product price: </label>
+              </td>
+              <td><input type="number" name="price" required /> EGP</td>
+              <td><p>the price has no floating point.</p></td>
+            </tr>
+
+            <tr class="category-row">
+              <td>
+                <label for="">Choose Category </label>
+              </td>
+              <td>
+                <select name="category">
+                  <option>Computing</option>
+                  <option>Fashion</option>
+                  <option>Phones & Tablets</option>
+                  <option>Health & Beauty</option>
+                  <option>Baby Products</option>
+                </select>
+              </td>
+              <td>
+                <div class=""></div>
+              </td>
+            </tr>
+
+            <tr class="description-row">
+              <td>
+                <label for="">Add name and description: </label>
+              </td>
+              <td>
+                <textarea
+                  name="title"
+                  required
+                  placeholder="Name and description of  product..."
+                ></textarea>
+              </td>
+              <td></td>
+            </tr>
+
+            <tr>
+              <td></td>
+              <td></td>
+              <td>
+                <div class="btn">
+                  <button type="submit">submit</button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </form>
+    </div>
+  </div>
+</main>
+
+<!-- MAIN -->

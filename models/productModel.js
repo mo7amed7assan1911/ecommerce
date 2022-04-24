@@ -68,6 +68,7 @@ function editProduct(product) {
   return new Promise((resolve, reject) => {
     connection()
       .then(async () => {
+        console.log(product.id);
         if (product.image) {
           await item.updateOne(
             { _id: product.id },
@@ -115,8 +116,28 @@ function deleteProduct(productId) {
   });
 }
 
+function addProductPost(product) {
+  return new Promise((resolve, reject) => {
+    connection()
+      .then(async () => {
+        const newProduct = new item(product);
+        await newProduct.save();
+        return newProduct;
+      })
+      .then((newProduct) => {
+        mongoose.disconnect();
+        resolve(newProduct._id);
+      })
+      .catch((error) => {
+        mongoose.disconnect();
+        reject(error);
+      });
+  });
+}
+
 exports.getItemsByCategory = getItemsByCategory;
 exports.getProductDetails = getProductDetails;
 exports.editProduct = editProduct;
 exports.deleteProduct = deleteProduct;
+exports.addProductPost = addProductPost;
 exports.item = item;

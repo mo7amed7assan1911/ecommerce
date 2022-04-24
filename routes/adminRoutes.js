@@ -1,6 +1,6 @@
 const route = require("express").Router();
-const adminRoute = require("../controllers/adminController");
+const adminController = require("../controllers/adminController");
 
-// route.get("/", homeController.getHomePage);
+route.get("/");
 
 module.exports = route;

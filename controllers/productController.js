@@ -29,16 +29,16 @@ function editProduct(req, res) {
   var image;
   if (req.files) {
     const image = req.files.image.data;
-    productModel
-      .editProduct({ id, title, price, image })
-      .then((resolveDate) => {
-        console.log(resolveDate);
-        res.redirect(`/product/?id=${productId}`);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
   }
+  productModel
+    .editProduct({ id, title, price, image })
+    .then((resolveDate) => {
+      console.log(resolveDate);
+      res.redirect(`/product/?id=${productId}`);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 }
 
 function deleteProduct(req, res) {
@@ -56,6 +56,38 @@ function deleteProduct(req, res) {
   res.redirect("/");
 }
 
+function addProductPage(req, res) {
+  res.render("addProduct", {
+    isAdmin: req.session.isAdmin,
+    isLoggedIn: req.session.userId,
+    fullName: req.session.fullName,
+  });
+}
+
+function addProductPost(req, res) {
+  const image = req.files.image;
+
+  const imageType = image.name.split(".");
+  if (imageType[imageType.length - 1] !== "jpg") {
+    console.log("jpg image only");
+    return res.redirect("/addProduct");
+  }
+
+  const product = req.body;
+  product.image = image.data;
+
+  productModel
+    .addProductPost(product)
+    .then((id) => {
+      console.log(id);
+      res.redirect(`/product/?id=${id}`);
+    })
+    .catch((error) => {
+      console.log(error);
+      res.redirect("/addProduct");
+    });
+}
+
 function saveProductImage(product) {
   const productData = [];
   image = product.image;
@@ -67,12 +99,15 @@ function saveProductImage(product) {
     id: product.id,
     title: product.title,
     price: product.price,
+    category: product.category,
     imagePath: imagePath,
   });
 
   return productData;
 }
-// productDetails
+
 exports.getProductPage = getProductPage;
 exports.editProduct = editProduct;
 exports.deleteProduct = deleteProduct;
+exports.addProductPage = addProductPage;
+exports.addProductPost = addProductPost;

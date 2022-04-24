@@ -1,6 +1,6 @@
 function checkAdmin(req, res, next) {
   if (req.session.userId == "admin") next();
-  else console.log("this user in not an admin");
+  else res.redirect("/");
 }
 function isNotAdmin(req, res, next) {
   if (req.session.userId !== "admin") next();
