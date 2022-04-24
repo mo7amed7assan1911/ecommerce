@@ -135,9 +135,29 @@ function addProductPost(product) {
   });
 }
 
+function search(titleSearch) {
+  return new Promise((resolve, reject) => {
+    connection()
+      .then(async () => {
+        return await item.find({
+          title: { $regex: titleSearch, $options: "i" },
+        });
+      })
+      .then((products) => {
+        mongoose.disconnect();
+        resolve(products);
+      })
+      .catch((error) => {
+        mongoose.disconnect();
+        reject(error.message);
+      });
+  });
+}
+
 exports.getItemsByCategory = getItemsByCategory;
 exports.getProductDetails = getProductDetails;
 exports.editProduct = editProduct;
 exports.deleteProduct = deleteProduct;
 exports.addProductPost = addProductPost;
+exports.search = search;
 exports.item = item;

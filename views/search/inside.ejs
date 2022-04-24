@@ -1,0 +1,75 @@
+<!-- MAIN -->
+<main>
+  <style>
+    .active {
+      background-color: #ff523b;
+    }
+    .active a {
+      color: white;
+    }
+    h4 {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      height: 22px;
+      white-space: nowrap;
+    }
+    span a {
+      color: black;
+    }
+    button {
+      cursor: pointer;
+    }
+    .small-container {
+      margin-top: -50px;
+    }
+    .row-2 {
+      margin-top: 50px;
+    }
+  </style>
+
+  <div class="small-container">
+    <div class="row row-2">
+      <h2><%= category %></h2>
+      <select>
+        <option>Default sort</option>
+        <option>Sort by price</option>
+        <option>Sort by rating</option>
+        <option>Sort by sale</option>
+      </select>
+    </div>
+
+    <% for( let index = 1; index < productData.length ; index += 3 ) { %>
+
+    <div class="row">
+      <% for( let i = index; i < index + 3 ; i++ ) { %>
+      <b></b>
+      <% if (productData[i]) { %>
+
+      <div class="col-4">
+        <form action="/product" method="get">
+          <input type="hidden" name="id" value="<%= productData[i].id %>" />
+          <button type="submit">
+            <img src="/images/category/<%= productData[i].imagePath %>" />
+          </button>
+        </form>
+        <h4><%= productData[i].title %></h4>
+        <b>$<%= productData[i].price %></b>
+        <div class="rating">
+          <i class="fa fa-star"></i>
+          <i class="fa fa-star"></i>
+          <i class="fa fa-star"></i>
+          <i class="fa fa-star"></i>
+          <i class="fa fa-star-o"></i>
+        </div>
+      </div>
+      <% } %>
+      <b></b>
+      <% } %>
+    </div>
+
+    <% } %>
+
+    <!--     =====================================    -->
+  </div>
+</main>
+<!-- MAIN -->

@@ -11,5 +11,5 @@ route.get(
   gardsAdmin.checkAdmin,
   productController.addProductPage
 );
-
+route.get("/search", homeController.search);
 module.exports = route;

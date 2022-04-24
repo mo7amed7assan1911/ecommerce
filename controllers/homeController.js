@@ -44,16 +44,42 @@ function getHomePage(req, res, next) {
   }
 }
 
+function search(req, res) {
+  var title;
+  if (req.query && req.query.search != "") {
+    title = req.query.search;
+    productModel
+      .search(title)
+      .then((products) => {
+        const productData = saveProductsImage(products);
+        console.log(productData);
+        console.log(productData.length);
+        res.render("search", {
+          productData: productData,
+          page: 1,
+          category: "",
+          isAdmin: req.session.isAdmin,
+          isLoggedIn: req.session.userId,
+          fullName: req.session.fullName,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  } else {
+    res.redirect("/");
+  }
+}
+
 function saveProductsImage(products) {
   const productData = [];
   for (let i = 0; i < products.length; i++) {
     image = products[i].image;
-    // image = new Buffer.from(products[i].image, "hex");
     const fullPath = "./public/images/category/" + "product_" + i + ".jpg"; //jpg png
     const imagePath = "product_" + i + ".jpg";
     fs.writeFileSync(fullPath, image);
     productData.push({
-      id: products[i]._id,
+      id: products[i].id,
       title: products[i].title,
       price: products[i].price,
       imagePath: imagePath,
@@ -63,3 +89,4 @@ function saveProductsImage(products) {
 }
 
 exports.getHomePage = getHomePage;
+exports.search = search;
