@@ -1,23 +1,11 @@
 <!-- MAIN -->
 <main>
   <style>
-    .active {
-      background-color: #ff523b;
-    }
-    .active a {
-      color: white;
-    }
     h4 {
       text-overflow: ellipsis;
       overflow: hidden;
       height: 22px;
       white-space: nowrap;
-    }
-    span a {
-      color: black;
-    }
-    button {
-      cursor: pointer;
     }
     .small-container {
       margin-top: -50px;
@@ -29,7 +17,7 @@
 
   <div class="small-container">
     <div class="row row-2">
-      <h2><%= category %></h2>
+      <h2>Result: <%= resultAmount %></h2>
       <select>
         <option>Default sort</option>
         <option>Sort by price</option>
@@ -38,7 +26,7 @@
       </select>
     </div>
 
-    <% for( let index = 1; index < productData.length ; index += 3 ) { %>
+    <% for( let index = 0; index < productData.length ; index += 3 ) { %>
 
     <div class="row">
       <% for( let i = index; i < index + 3 ; i++ ) { %>

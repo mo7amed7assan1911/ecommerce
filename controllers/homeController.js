@@ -57,7 +57,7 @@ function search(req, res) {
         res.render("search", {
           productData: productData,
           page: 1,
-          category: "",
+          resultAmount: productData.length,
           isAdmin: req.session.isAdmin,
           isLoggedIn: req.session.userId,
           fullName: req.session.fullName,
