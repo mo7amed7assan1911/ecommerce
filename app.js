@@ -1,3 +1,7 @@
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
+
 // ========= import required modules =====================
 const express = require("express");
 const app = express();
@@ -8,9 +12,6 @@ const fileUpload = require("express-fileupload");
 
 const port = process.env.PORT || 3000;
 
-if (process.env.NODE_ENV !== "production") {
-  require("dotenv").config();
-}
 // ========= set view engine ==================
 app.set("view engine", "ejs");
 app.set("views", "views");
