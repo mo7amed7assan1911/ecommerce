@@ -48,6 +48,7 @@ function saveProductsImage(products) {
   const productData = [];
   for (let i = 0; i < products.length; i++) {
     image = products[i].image;
+    // image = new Buffer.from(products[i].image, "hex");
     const fullPath = "./public/images/category/" + "product_" + i + ".jpg"; //jpg png
     const imagePath = "product_" + i + ".jpg";
     fs.writeFileSync(fullPath, image);

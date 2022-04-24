@@ -5,12 +5,10 @@ const fs = require("fs");
 function getProductPage(req, res, next) {
   const productForm = req.query;
   const productId = mongoose.Types.ObjectId(productForm.id);
-  console.log(productId);
   productModel
     .getProductDetails(productId)
     .then((product) => {
       const productDate = saveProductImage(product);
-      console.log(productDate);
       res.render("product-details", {
         product: productDate[0],
         isAdmin: req.session.isAdmin,
@@ -22,25 +20,25 @@ function getProductPage(req, res, next) {
       console.log(err);
     });
 }
+
 function editProduct(req, res) {
   const title = req.body.title;
   const price = req.body.price;
-  const id = req.body.id;
+  const productId = req.body.id;
+  const id = mongoose.Types.ObjectId(productId);
   var image;
   if (req.files) {
-    const imageForm = req.files.image;
-    image = imageForm.data.toString("hex");
+    const image = req.files.image.data;
+    productModel
+      .editProduct({ id, title, price, image })
+      .then((resolveDate) => {
+        console.log(resolveDate);
+        res.redirect(`/product/?id=${productId}`);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
-  console.log(image);
-  // productModel
-  //   .editProduct({ id, title, price, image })
-  //   .then((product) => {
-  //     console.log(product);
-  //     console.log(`new price >>> ${product.price}`);
-  //   })
-  //   .catch((error) => {
-  //     console.log(error);
-  //   });
 }
 
 function deleteProduct(req, res) {
@@ -51,18 +49,18 @@ function deleteProduct(req, res) {
     .deleteProduct(productId)
     .then((result) => {
       console.log(result);
-      res.redirect("/");
     })
     .catch((err) => {
       console.log(err);
     });
+  res.redirect("/");
 }
 
 function saveProductImage(product) {
   const productData = [];
   image = product.image;
   const fullPath =
-    "./public/images/productDetails/" + "productDetails" + ".jpg"; //jpg png
+    "./public/images/productDetails/" + "productDetails" + ".jpg";
   const imagePath = "productDetails" + ".jpg";
   fs.writeFileSync(fullPath, image);
   productData.push({
@@ -74,7 +72,7 @@ function saveProductImage(product) {
 
   return productData;
 }
-
+// productDetails
 exports.getProductPage = getProductPage;
 exports.editProduct = editProduct;
 exports.deleteProduct = deleteProduct;

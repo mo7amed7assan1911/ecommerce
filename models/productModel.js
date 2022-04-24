@@ -68,19 +68,28 @@ function editProduct(product) {
   return new Promise((resolve, reject) => {
     connection()
       .then(async () => {
-        return await item.updateOne(
-          { _id: product.id },
-          {
-            // title: product.title,
-            price: product.price,
-            // image: product.image,
-          }
-        );
+        if (product.image) {
+          await item.updateOne(
+            { _id: product.id },
+            {
+              title: product.title,
+              price: product.price,
+              image: product.image,
+            }
+          );
+        } else {
+          await item.updateOne(
+            { _id: product.id },
+            {
+              title: product.title,
+              price: product.price,
+            }
+          );
+        }
       })
-      .then((newProduct) => {
-        console.log(newProduct);
+      .then(() => {
         mongoose.disconnect();
-        resolve(newProduct);
+        resolve("Product updated successfully");
       })
       .catch((error) => {
         mongoose.disconnect();
