@@ -10,7 +10,7 @@ function getHomePage(req, res, next) {
     });
   } else {
     var category = req.query.category;
-    pageNumber = parseInt(req.query.pageNumber);
+    page = parseInt(req.query.page);
     if (category.includes("_")) {
       category = category.replace("_", " & ");
     }
@@ -25,12 +25,12 @@ function getHomePage(req, res, next) {
     ];
     if (categoryies.includes(category)) {
       productModel
-        .getItemsByCategory(category, pageNumber)
+        .getItemsByCategory(category, page)
         .then((products) => {
           const productData = saveProductsImage(products);
           res.render("categoryPage", {
             productData: productData,
-            pageNumber: pageNumber,
+            page: page,
             category: category,
             isAdmin: req.session.isAdmin,
             isLoggedIn: req.session.userId,
