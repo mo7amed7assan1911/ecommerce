@@ -32,6 +32,7 @@ function getHomePage(req, res, next) {
             productData: productData,
             page: page,
             category: category,
+            categoryLink: category.replace(" & ", "_"),
             isAdmin: req.session.isAdmin,
             isLoggedIn: req.session.userId,
             fullName: req.session.fullName,
@@ -52,8 +53,6 @@ function search(req, res) {
       .search(title)
       .then((products) => {
         const productData = saveProductsImage(products);
-        console.log(productData);
-        console.log(productData.length);
         res.render("search", {
           productData: productData,
           page: 1,

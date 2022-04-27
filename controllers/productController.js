@@ -28,7 +28,7 @@ function editProduct(req, res) {
   const id = mongoose.Types.ObjectId(productId);
   var image;
   if (req.files) {
-    const image = req.files.image.data;
+    image = req.files.image.data;
   }
   productModel
     .editProduct({ id, title, price, image })

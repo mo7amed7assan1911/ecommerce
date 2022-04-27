@@ -17,7 +17,7 @@
 
   <div class="small-container">
     <div class="row row-2">
-      <h2>Result: <%= resultAmount %></h2>
+      <h2><%= resultAmount %> Results</h2>
       <select>
         <option>Default sort</option>
         <option>Sort by price</option>
@@ -26,17 +26,17 @@
       </select>
     </div>
 
-    <% for( let index = 0; index < productData.length ; index += 3 ) { %>
+    <% for( let index = 0; index < productData.length ; index += 4 ) { %>
 
     <div class="row">
-      <% for( let i = index; i < index + 3 ; i++ ) { %>
+      <% for( let i = index; i < index + 4 ; i++ ) { %>
       <b></b>
       <% if (productData[i]) { %>
 
       <div class="col-4">
         <form action="/product" method="get">
           <input type="hidden" name="id" value="<%= productData[i].id %>" />
-          <button type="submit">
+          <button type="submit" style="cursor: pointer">
             <img src="/images/category/<%= productData[i].imagePath %>" />
           </button>
         </form>

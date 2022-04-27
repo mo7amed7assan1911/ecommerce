@@ -71,16 +71,17 @@
         <% if (page > 1) { %> <% var last = page-1 %> <% }else{ last = 1 } %>
 
         <span i
-          ><a href="/?category=<%= category %>&page=<%= last %>"
+          ><a href="/?category=<%= categoryLink %>&page=<%= last %>"
             >&#8592;</a
           ></span
         >
 
         <b></b>
-        <% if (page < 16) { %> <% next = page + 1 %> <% }else{next = page} %>
+        <% if (page < 16) { %> <% var next = page + 1 %> <% }else{var next =
+        page} %>
 
         <span>
-          <a href="/?category=<%= category %>&page=<%= next %>">&#8594;</a>
+          <a href="/?category=<%= categoryLink %>&page=<%= next %>">&#8594;</a>
         </span>
       </div>
     </div>
