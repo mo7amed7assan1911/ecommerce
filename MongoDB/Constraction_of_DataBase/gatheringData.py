@@ -51,6 +51,7 @@ def Getting_Data(url):
                 li.append(
                     {
                         'title': title,
+                        'amount': 5,
                         'price': price,
                         'brand': brand,
                         'image': image_bytes.getvalue(),
@@ -63,9 +64,7 @@ def Getting_Data(url):
             )
             except:   # if there are any not allowed symbol in the title to use in the path. 
                 continue 
-   
-   
-   
+
             # # if we need to add the original scrapped ratings.
             # rating = float(pr.find('a').find('div', {'class': 'info'}).find('div', {'class': 'rev'}).text.split()[0])
             # no_of_rev  = int(pr.find('a').find('div', {'class': 'info'}).find('div', {'class': 'rev'}).text.split()[-1][2:4])
