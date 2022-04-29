@@ -33,7 +33,7 @@ const store = new sessionStore({
 app.use(
   session({
     secret: "secret",
-    cookie: { maxAge: 24 * 60 * 60 * 1000 },
+    cookie: { maxAge: 1000 * 60 * 60 * 24 * 7 },
     saveUninitialized: false,
     resave: true,
     store: store,
@@ -46,12 +46,14 @@ const homeRout = require("./routes/homeRout");
 const productRoutes = require("./routes/productRoutes");
 const cartRoutes = require("./routes/cartRoutes");
 const loginRoutes = require("./routes/loginRoutes");
+const adminRoute = require("./routes/adminRoute");
 
 // ========= use routes ==================
 app.use("/", homeRout);
 app.use("/product", productRoutes);
 app.use("/cart", cartRoutes);
 app.use("/login", loginRoutes);
+app.use("/admin", adminRoute);
 
 //
 app.listen(port, (err) => {

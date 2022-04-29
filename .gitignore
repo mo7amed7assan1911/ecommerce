@@ -3,3 +3,4 @@
 frontend/
 .env
 node_modules
+/public/images/category/

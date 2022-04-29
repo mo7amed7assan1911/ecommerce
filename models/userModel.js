@@ -1,9 +1,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
-const res = require("express/lib/response");
 const e = require("connect-flash");
 const productModel = require("../models/productModel");
-const { reject } = require("bcrypt/promises");
 
 const dbURL = process.env.DATABASE_URL;
 function connection() {
@@ -173,7 +171,8 @@ function removeFromCart(userId, newProduct) {
       });
   });
 }
-function buyCart(userId, newProduct) {
+
+function clearCart(userId, newProduct) {
   return new Promise((resolve, reject) => {
     connection()
       .then(async () => {
@@ -190,9 +189,47 @@ function buyCart(userId, newProduct) {
   });
 }
 
+function contOfUsers() {
+  return new Promise((resolve, reject) => {
+    connection()
+      .then(async () => {
+        await userModel.aggregate(
+          [
+            {
+              $group: {
+                _id: 0,
+                countUsers: { $sum: 1 },
+              },
+            },
+            {
+              $project: {
+                _id: 0,
+                countUsers: 1,
+              },
+            },
+          ],
+          async function (error, result) {
+            if (error) {
+              mongoose.disconnect();
+              reject(error);
+            } else {
+              mongoose.disconnect();
+              resolve(result);
+            }
+          }
+        );
+      })
+      .catch((error) => {
+        mongoose.disconnect();
+        reject(error);
+      });
+  });
+}
+
 exports.saveUser = saveUser;
 exports.postLogin = postLogin;
 exports.getCartProducts = getCartProducts;
 exports.addToCart = addToCart;
 exports.removeFromCart = removeFromCart;
-exports.buyCart = buyCart;
+exports.clearCart = clearCart;
+exports.contOfUsers = contOfUsers;
