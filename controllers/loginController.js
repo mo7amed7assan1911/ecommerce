@@ -36,6 +36,7 @@ function postLogin(req, res, next) {
         req.session.userId = userInDB._id;
         req.session.isAdmin = false;
         req.session.fullName = userInDB.fullName;
+        req.session.userName = userInDB.userName;
 
         res.redirect("/");
       })

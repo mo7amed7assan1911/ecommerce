@@ -1,7 +1,7 @@
 const userModel = require("../models/userModel");
+const ordersModel = require("../models/ordersModel");
 const mongoose = require("mongoose");
 const fs = require("fs");
-const { redirect } = require("express/lib/response");
 
 function getCartPage(req, res, next) {
   userModel
@@ -51,12 +51,69 @@ async function removeFromCart(req, res, next) {
 }
 async function buyCart(req, res, next) {
   const userId = req.session.userId;
-  const cart = req.body.cart;
-  // console.log(cart.split(",")); // to add to history later
+  const cart = req.body.cart.split(",");
+  const date = new Date();
+  const dateString = `${date.getFullYear()}-${
+    date.getMonth() + 1
+  }-${date.getDate()}`;
+
+  if (typeof req.body.title == "object") {
+    for (let i = 0; i < cart.length; i++) {
+      const oldImagePath = req.body.imagePath[i];
+      const newPath = "./public/images/orders/" + cart[i] + ".jpg";
+      fs.copyFile(oldImagePath, newPath, (err) => {
+        if (err) console.log(err);
+        console.log("File was copied");
+      });
+      const order = {
+        id: cart[i],
+        userName: req.session.userName,
+        imagePath: "images/orders/" + cart[i] + ".jpg",
+        title: req.body.title[i],
+        amount: +req.body.amount[i],
+        totalPrice: +req.body.price[i] * +req.body.amount[i],
+        date: dateString,
+      };
+
+      await ordersModel
+        .saveOrder(order)
+        .then((resolvedData) => {
+          console.log(resolvedData);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  } else {
+    const oldImagePath = req.body.imagePath;
+    const newPath = "./public/images/orders/" + cart + ".jpg";
+    fs.copyFile(oldImagePath, newPath, (err) => {
+      if (err) console.log(err);
+      console.log("File was copied");
+    });
+    const order = {
+      id: cart,
+      userName: req.session.userName,
+      imagePath: "images/orders/" + cart + ".jpg",
+      title: req.body.title,
+      amount: +req.body.amount,
+      totalPrice: +req.body.price * +req.body.amount,
+      date: dateString,
+    };
+
+    await ordersModel
+      .saveOrder(order)
+      .then((resolvedData) => {
+        console.log(resolvedData);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
   await userModel
-    .buyCart(userId)
+    .clearCart(userId)
     .then((result) => {
-      // console.log(result);
+      console.log(result);
     })
     .catch((error) => {
       console.log(error);

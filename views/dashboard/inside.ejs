@@ -1,0 +1,93 @@
+<!-- MAIN -->
+
+<style>
+  td p {
+    max-width: 300px;
+    max-height: 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  #content main .table-data .order table td {
+    padding: 16px 46px;
+    margin: 0 5px;
+  }
+  #content main .table-data .order table th {
+    padding-bottom: 12px;
+    font-size: 13px;
+    text-align: center;
+    border-bottom: 1px solid var(--grey);
+    background: #3c91e6;
+  }
+</style>
+
+<main>
+  <div class="head-title">
+    <div class="left">
+      <h1>Dashboard</h1>
+    </div>
+  </div>
+
+  <ul class="box-info">
+    <li>
+      <i class="bx bxs-calendar-check"></i>
+      <span class="text">
+        <h3><%= aggregateData.countProducts %></h3>
+        <p>New Order</p>
+      </span>
+    </li>
+    <li>
+      <i class="bx bxs-group"></i>
+      <span class="text">
+        <h3><%= aggregateData.countUsers %></h3>
+        <p>Users</p>
+      </span>
+    </li>
+    <li>
+      <i class="bx bxs-dollar-circle"></i>
+      <span class="text">
+        <h3>EGP <%= aggregateData.totalPrice %></h3>
+        <p>Total Sales</p>
+      </span>
+    </li>
+  </ul>
+
+  <div class="table-data">
+    <div class="order">
+      <div class="head">
+        <h3>Recent Orders</h3>
+        <i class="bx bx-search"></i>
+        <i class="bx bx-filter"></i>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Order</th>
+            <th>Date Order</th>
+            <th>amount</th>
+            <th>Total price</th>
+            <th>User name</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for( let i = 0; i < allOrders.length; i++ ) { %>
+
+          <tr>
+            <td>
+              <img src="<%= allOrders[i].imagePath %>" />
+              <p><%= allOrders[i].title %></p>
+            </td>
+            <td><%= allOrders[i].date %></td>
+            <td><%= allOrders[i].amount %></td>
+            <td><%= allOrders[i].totalPrice %></td>
+            <td><%= allOrders[i].userName %></td>
+            <td><span class="status completed">Completed</span></td>
+          </tr>
+
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</main>
