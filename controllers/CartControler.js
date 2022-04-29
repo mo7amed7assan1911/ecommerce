@@ -1,5 +1,6 @@
 const userModel = require("../models/userModel");
 const ordersModel = require("../models/ordersModel");
+const productModel = require("../models/productModel");
 const mongoose = require("mongoose");
 const fs = require("fs");
 
@@ -41,7 +42,7 @@ async function removeFromCart(req, res, next) {
   await userModel
     .removeFromCart(userId, productId)
     .then((result) => {
-      // console.log(result);
+      console.log(result);
       res.redirect("/cart");
     })
     .catch((error) => {
@@ -75,6 +76,19 @@ async function buyCart(req, res, next) {
         date: dateString,
       };
 
+      const amountData = {
+        id: mongoose.Types.ObjectId(cart[i]),
+        amount: +req.body.amount[i],
+      };
+      await productModel
+        .changeAmount(amountData)
+        .then((result) => {
+          console.log(result);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+
       await ordersModel
         .saveOrder(order)
         .then((resolvedData) => {
@@ -100,6 +114,20 @@ async function buyCart(req, res, next) {
       totalPrice: +req.body.price * +req.body.amount,
       date: dateString,
     };
+
+    const amountData = {
+      id: mongoose.Types.ObjectId(req.body.cart),
+      amount: +req.body.amount,
+    };
+
+    await productModel
+      .changeAmount(amountData)
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
 
     await ordersModel
       .saveOrder(order)
@@ -133,6 +161,7 @@ function saveItemsImage(items) {
       title: items[i].title,
       price: items[i].price,
       imagePath: imagePath,
+      amount: items[i].amount,
     });
   }
   return cartItems;

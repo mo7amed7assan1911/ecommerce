@@ -158,10 +158,39 @@ function search(titleSearch) {
   });
 }
 
+function changeAmount(amountData) {
+  return new Promise((resolve, reject) => {
+    connection()
+      .then(async () => {
+        return await item.findOne(
+          { _id: amountData.id },
+          { _id: 0, amount: 1 }
+        );
+      })
+      .then(async (oldAmount) => {
+        console.log(`oldAmount >>> ${oldAmount.amount}`);
+        const newAmount = oldAmount.amount - amountData.amount;
+        return await item.updateOne(
+          { _id: amountData.id },
+          { amount: newAmount }
+        );
+      })
+      .then(() => {
+        mongoose.disconnect();
+        resolve("amount apdated successfully");
+      })
+      .catch((error) => {
+        mongoose.disconnect();
+        reject(error.message);
+      });
+  });
+}
+
 exports.getItemsByCategory = getItemsByCategory;
 exports.getProductDetails = getProductDetails;
 exports.editProduct = editProduct;
 exports.deleteProduct = deleteProduct;
 exports.addProductPost = addProductPost;
 exports.search = search;
+exports.changeAmount = changeAmount;
 exports.item = item;

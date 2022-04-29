@@ -89,7 +89,10 @@ function getCartProducts(userId) {
       })
       .then(async (itemsId) => {
         await productModel.item
-          .find({ _id: { $in: itemsId } }, { title: 1, price: 1, image: 1 })
+          .find(
+            { _id: { $in: itemsId } },
+            { title: 1, price: 1, image: 1, amount: 1 }
+          )
           .then((items) => {
             mongoose.disconnect();
             resolve(items);
