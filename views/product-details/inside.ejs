@@ -25,13 +25,7 @@
     background-color: hsl(1deg 61% 47%);
     font-size: 20px;
   }
-  form .edit {
-    margin-left: 10px;
-    width: 150px;
-    height: 50px;
-    background-color: hsl(35deg 83% 53%);
-    font-size: 20px;
-  }
+
   form .file {
     margin-left: 20px;
     width: 135px;
@@ -39,6 +33,14 @@
     cursor: pointer;
     font-size: 15pt;
     border: none;
+  }
+
+  form .edit {
+    margin-left: 35px;
+    width: 400px;
+    height: 50px;
+    background-color: hsl(35deg 83% 53%);
+    font-size: 20px;
   }
 </style>
 
@@ -62,13 +64,37 @@
         enctype="multipart/form-data"
       >
         <textarea name="title"><%= product.title %></textarea>
-        <input
-          class="price"
-          type="number"
-          name="price"
-          value="<%= product.price %>"
-        />
-        <input type="file" class="file" name="image" />
+        <div>
+          <label for="" style="margin-right: 202px; font-size: 25px"
+            >Change price</label
+          >
+          <input
+            class="price"
+            type="number"
+            name="price"
+            value="<%= product.price %>"
+          />
+        </div>
+        <div>
+          <label for="" style="margin-right: 171px; font-size: 25px"
+            >Change amount</label
+          >
+          <input
+            class="price"
+            type="number"
+            name="amount"
+            value="<%= product.amount %>"
+            min="0"
+          />
+        </div>
+
+        <div>
+          <label for="" style="margin-right: 140px; font-size: 25px"
+            >Change image</label
+          >
+          <input type="file" class="file" name="image" />
+        </div>
+
         <input type="hidden" name="id" value="<%= product.id %>" />
         <button type="submit" class="edit btn">Save</button>
       </form>

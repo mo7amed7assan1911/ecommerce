@@ -15,6 +15,7 @@ const itemSchema = mongoose.Schema({
   total_rate: Number,
   count_of_ratings: Number,
   reviews: Array,
+  amount: Number,
 });
 
 const item = mongoose.model("item", itemSchema);
@@ -50,6 +51,7 @@ function getProductDetails(productId) {
             price: 1,
             image: 1,
             category: 1,
+            amount: 1,
           }
         );
       })
@@ -76,6 +78,7 @@ function editProduct(product) {
               title: product.title,
               price: product.price,
               image: product.image,
+              amount: product.amount,
             }
           );
         } else {
@@ -84,6 +87,7 @@ function editProduct(product) {
             {
               title: product.title,
               price: product.price,
+              amount: product.amount,
             }
           );
         }

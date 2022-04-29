@@ -26,12 +26,13 @@ function editProduct(req, res) {
   const price = req.body.price;
   const productId = req.body.id;
   const id = mongoose.Types.ObjectId(productId);
+  const amount = req.body.amount;
   var image;
   if (req.files) {
     image = req.files.image.data;
   }
   productModel
-    .editProduct({ id, title, price, image })
+    .editProduct({ id, title, price, image, amount })
     .then((resolveDate) => {
       console.log(resolveDate);
       res.redirect(`/product/?id=${productId}`);
@@ -101,6 +102,7 @@ function saveProductImage(product) {
     price: product.price,
     category: product.category,
     imagePath: imagePath,
+    amount: product.amount,
   });
 
   return productData;
