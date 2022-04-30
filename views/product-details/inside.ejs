@@ -177,9 +177,8 @@
           </tr>
         </thead>
         <tbody>
+          <% for( let i = 0; i < product.reviews.length; i++ ) { %>
           <tr>
-            <% for( let i = 0; i < product.reviews.length; i++ ) { %>
-
             <td>
               <!-- <img src="/images/user/account.png" /> -->
               <b><%= product.reviews[i].userName %> </b>
@@ -203,9 +202,8 @@
             <td></td>
             <td><%= product.reviews[i].comment %></td>
             <td></td>
-
-            <% } %>
           </tr>
+          <% } %>
         </tbody>
       </table>
     </div>

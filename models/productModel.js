@@ -275,9 +275,10 @@ function getLastReview(userName, productId) {
             if (allReviews[i].userName == userName) {
               resolve(allReviews[i]);
             } else {
-              resolve({ comment: "", rate: 0 });
+              continue;
             }
           }
+          resolve({ comment: "", rate: 0 });
         } else {
           resolve({ comment: "", rate: 0 });
         }
