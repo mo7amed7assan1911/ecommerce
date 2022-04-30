@@ -84,6 +84,24 @@ function getAllOrders() {
   });
 }
 
+function getUserOrders(userName) {
+  return new Promise((resolve, reject) => {
+    connection()
+      .then(async () => {
+        return await orderModel.find({ userName: userName }, { userName: 0 });
+      })
+      .then(async (userOrders) => {
+        mongoose.disconnect();
+        resolve(userOrders);
+      })
+      .catch((error) => {
+        mongoose.disconnect();
+        reject(error.message);
+      });
+  });
+}
+
 exports.saveOrder = saveOrder;
 exports.getAllOrders = getAllOrders;
 exports.countAndSumPrice = countAndSumPrice;
+exports.getUserOrders = getUserOrders;

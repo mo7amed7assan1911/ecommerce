@@ -30,7 +30,7 @@ async function getAdminPage(req, res) {
     aggregateData[keys[0]] = values[0];
   });
 
-  const adminData = res.render("dashboard", {
+  res.render("dashboard", {
     aggregateData: aggregateData,
     allOrders: allOrders,
     isAdmin: req.session.isAdmin,

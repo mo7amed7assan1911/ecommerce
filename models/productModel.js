@@ -186,6 +186,63 @@ function changeAmount(amountData) {
   });
 }
 
+function saveUserRate(productId, userRate) {
+  const newProductId = mongoose.Types.ObjectId(productId);
+
+  return new Promise((resolve, reject) => {
+    connection()
+      .then(async () => {
+        return await item.findOne(
+          { _id: newProductId },
+          { reviews: 1, total_rate: 1, count_of_ratings: 1 }
+        );
+      })
+      .then(async (product) => {
+        var reviews = product.reviews;
+        if (reviews.length > 0) {
+          for (let i = 0; i < reviews.length; i++) {
+            if (reviews[i].userName == userRate.userName) {
+              const oldUserRate = reviews[i].rate;
+              product.total_rate -= oldUserRate;
+              product.total_rate += userRate.rate;
+
+              reviews[i].rate = userRate.rate;
+              reviews[i].comment = userRate.comment;
+
+              return product;
+            }
+          }
+          reviews.push(userRate);
+          product.total_rate += userRate.rate;
+          product.count_of_ratings += 1;
+          return product;
+        } else {
+          reviews.push(userRate);
+          product.total_rate += userRate.rate;
+          product.count_of_ratings += 1;
+          return product;
+        }
+      })
+      .then(async (newProduct) => {
+        await item.updateOne(
+          { _id: newProductId },
+          {
+            total_rate: newProduct.total_rate,
+            count_of_ratings: newProduct.count_of_ratings,
+            reviews: newProduct.reviews,
+          }
+        );
+      })
+      .then(() => {
+        resolve("rating updated successfully");
+      })
+      .catch((error) => {
+        mongoose.disconnect();
+        reject(error.message);
+      });
+  });
+}
+
 exports.getItemsByCategory = getItemsByCategory;
 exports.getProductDetails = getProductDetails;
 exports.editProduct = editProduct;
@@ -193,4 +250,5 @@ exports.deleteProduct = deleteProduct;
 exports.addProductPost = addProductPost;
 exports.search = search;
 exports.changeAmount = changeAmount;
+exports.saveUserRate = saveUserRate;
 exports.item = item;

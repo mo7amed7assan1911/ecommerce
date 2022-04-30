@@ -60,6 +60,9 @@ async function buyCart(req, res, next) {
 
   if (typeof req.body.title == "object") {
     for (let i = 0; i < cart.length; i++) {
+      if (req.body.amount[i] == 0) {
+        return res.redirect("/cart");
+      }
       const oldImagePath = req.body.imagePath[i];
       const newPath = "./public/images/orders/" + cart[i] + ".jpg";
       fs.copyFile(oldImagePath, newPath, (err) => {
@@ -69,7 +72,7 @@ async function buyCart(req, res, next) {
       const order = {
         id: cart[i],
         userName: req.session.userName,
-        imagePath: "images/orders/" + cart[i] + ".jpg",
+        imagePath: cart[i] + ".jpg",
         title: req.body.title[i],
         amount: +req.body.amount[i],
         totalPrice: +req.body.price[i] * +req.body.amount[i],
@@ -99,6 +102,9 @@ async function buyCart(req, res, next) {
         });
     }
   } else {
+    if (req.body.amount == 0) {
+      return res.redirect("/cart");
+    }
     const oldImagePath = req.body.imagePath;
     const newPath = "./public/images/orders/" + cart + ".jpg";
     fs.copyFile(oldImagePath, newPath, (err) => {
@@ -108,7 +114,7 @@ async function buyCart(req, res, next) {
     const order = {
       id: cart,
       userName: req.session.userName,
-      imagePath: "images/orders/" + cart + ".jpg",
+      imagePath: cart + ".jpg",
       title: req.body.title,
       amount: +req.body.amount,
       totalPrice: +req.body.price * +req.body.amount,

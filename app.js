@@ -47,6 +47,7 @@ const productRoutes = require("./routes/productRoutes");
 const cartRoutes = require("./routes/cartRoutes");
 const loginRoutes = require("./routes/loginRoutes");
 const adminRoute = require("./routes/adminRoute");
+const userRoute = require("./routes/userRoute");
 
 // ========= use routes ==================
 app.use("/", homeRout);
@@ -54,6 +55,7 @@ app.use("/product", productRoutes);
 app.use("/cart", cartRoutes);
 app.use("/login", loginRoutes);
 app.use("/admin", adminRoute);
+app.use("/user", userRoute);
 
 //
 app.listen(port, (err) => {
