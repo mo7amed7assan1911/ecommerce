@@ -43,11 +43,16 @@
         <h4><%= productData[i].title %></h4>
         <b>$<%= productData[i].price %></b>
         <div class="rating">
+          <% for( let j = 0; j < productData[i].rating; j++ ) { %>
+
           <i class="fa fa-star"></i>
-          <i class="fa fa-star"></i>
-          <i class="fa fa-star"></i>
-          <i class="fa fa-star"></i>
+
+          <% } %> <% for( let k = 0; k < 5 - productData[i].rating; k++ ) { %>
+          <% if (k>= 0) { %>
+
           <i class="fa fa-star-o"></i>
+
+          <% } %> <% } %>
         </div>
       </div>
       <% } %>
