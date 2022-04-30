@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const dbURL = process.env.DATABASE_URL;
 const productModel = require("./productModel");
 function connection() {
-  return mongoose.connect(dbURL);
+  return mongoose.connect(dbURL, { useNewUrlParser: true });
 }
 
 const orderSchema = mongoose.Schema({
