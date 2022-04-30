@@ -43,6 +43,25 @@
     font-size: 20px;
   }
 </style>
+<style>
+  .table-data .order table td {
+    padding: 16px 15px;
+    margin: 0 1px;
+    text-align: center;
+  }
+  .table-data .order table th {
+    padding-bottom: 12px;
+    padding-top: 12px;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    border-bottom: 1px solid var(--grey);
+    background: #3c91e6;
+  }
+  .fa {
+    font-size: 20px;
+  }
+</style>
 
 <div class="small-container single-product">
   <div class="row">
@@ -55,7 +74,25 @@
       />
     </div>
     <div class="col-2">
-      <h5>Home / <%= product.category %></h5>
+      <h3>
+        Home / <%= product.category %>
+
+        <div class="rating" style="display: inline; margin-left: 70px">
+          <% for( let j = 0; j < product.rating; j++ ) { %>
+
+          <i class="fa fa-star" style="font-size: 30px"></i>
+
+          <% } %> <% for( let k = 0; k < 5 - product.rating; k++ ) { %> <% if (k
+          >= 0) { %>
+
+          <i class="fa fa-star-o" style="font-size: 30px"></i>
+
+          <% } %> <% } %>
+        </div>
+      </h3>
+      <br />
+      <br />
+
       <br />
       <% if (isAdmin) { %>
       <form
@@ -118,6 +155,60 @@
       <br />
     </div>
   </div>
-</div>
 
-<!-- MAIN -->
+  <!-- ======================================================================================= -->
+  <!-- ====================================  Comments  ======================================= -->
+  <!-- ========================================================================================-->
+  <div class="table-data">
+    <div class="order">
+      <div class="head">
+        <h3>Reviews</h3>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>User</th>
+            <th></th>
+            <th>Rating</th>
+            <th></th>
+            <th></th>
+            <th>Comment</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <% for( let i = 0; i < product.reviews.length; i++ ) { %>
+
+            <td>
+              <!-- <img src="/images/user/account.png" /> -->
+              <b><%= product.reviews[i].userName %> </b>
+            </td>
+            <td></td>
+            <td>
+              <div class="rating">
+                <% for( let j = 0; j < product.reviews[i].rate; j++ ) { %>
+
+                <i class="fa fa-star"></i>
+
+                <% } %> <% for( let k = 0; k < 5 - product.reviews[i].rate; k++
+                ) { %> <% if (k >= 0) { %>
+
+                <i class="fa fa-star-o"></i>
+
+                <% } %> <% } %>
+              </div>
+            </td>
+            <td></td>
+            <td></td>
+            <td><%= product.reviews[i].comment %></td>
+            <td></td>
+
+            <% } %>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <!-- ====================================  Comments  ======================================= -->
+</div>

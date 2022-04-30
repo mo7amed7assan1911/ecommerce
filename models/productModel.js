@@ -1,4 +1,3 @@
-const res = require("express/lib/response");
 const mongoose = require("mongoose");
 const dbURL = process.env.DATABASE_URL;
 function connection() {
@@ -20,14 +19,21 @@ const itemSchema = mongoose.Schema({
 
 const item = mongoose.model("item", itemSchema);
 
-function getItemsByCategory(category, pageNumber) {
+function getItemsByCategory(category, pageNumber, isAdmin) {
   return new Promise((resolve, reject) => {
     connection()
       .then(async () => {
-        return await item
-          .find({ category: category })
-          .skip((pageNumber - 1) * 13)
-          .limit(13);
+        if (isAdmin) {
+          return await item
+            .find({ category: category })
+            .skip((pageNumber - 1) * 13)
+            .limit(13);
+        } else {
+          return await item
+            .find({ category: category, amount: { $gt: 0 } })
+            .skip((pageNumber - 1) * 13)
+            .limit(13);
+        }
       })
       .then((products) => {
         mongoose.disconnect();
@@ -52,6 +58,9 @@ function getProductDetails(productId) {
             image: 1,
             category: 1,
             amount: 1,
+            reviews: 1,
+            total_rate: 1,
+            count_of_ratings: 1,
           }
         );
       })
@@ -139,13 +148,20 @@ function addProductPost(product) {
   });
 }
 
-function search(titleSearch) {
+function search(titleSearch, isAdmin) {
   return new Promise((resolve, reject) => {
     connection()
       .then(async () => {
-        return await item.find({
-          title: { $regex: titleSearch, $options: "i" },
-        });
+        if (isAdmin) {
+          return await item.find({
+            title: { $regex: titleSearch, $options: "i" },
+          });
+        } else {
+          return await item.find({
+            title: { $regex: titleSearch, $options: "i" },
+            amount: { $gt: 0 },
+          });
+        }
       })
       .then((products) => {
         mongoose.disconnect();
@@ -258,6 +274,8 @@ function getLastReview(userName, productId) {
           for (let i = 0; i < allReviews.length; i++) {
             if (allReviews[i].userName == userName) {
               resolve(allReviews[i]);
+            } else {
+              resolve({ comment: "", rate: 0 });
             }
           }
         } else {

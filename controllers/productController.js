@@ -103,6 +103,8 @@ function saveProductImage(product) {
     category: product.category,
     imagePath: imagePath,
     amount: product.amount,
+    reviews: product.reviews,
+    rating: product.total_rate / product.count_of_ratings,
   });
 
   return productData;

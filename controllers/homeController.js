@@ -25,7 +25,7 @@ function getHomePage(req, res, next) {
     ];
     if (categoryies.includes(category)) {
       productModel
-        .getItemsByCategory(category, page)
+        .getItemsByCategory(category, page, req.session.isAdmin)
         .then((products) => {
           const productData = saveProductsImage(products);
           res.render("categoryPage", {
@@ -50,7 +50,7 @@ function search(req, res) {
   if (req.query && req.query.search != "") {
     title = req.query.search;
     productModel
-      .search(title)
+      .search(title, req.session.isAdmin)
       .then((products) => {
         const productData = saveProductsImage(products);
         res.render("search", {
@@ -82,6 +82,7 @@ function saveProductsImage(products) {
       title: products[i].title,
       price: products[i].price,
       imagePath: imagePath,
+      rating: products[i].total_rate / products[i].count_of_ratings,
     });
   }
   return productData;

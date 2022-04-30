@@ -102,6 +102,8 @@ function getUserOrders(userName) {
                 userOrders[i].userComment = review.comment;
                 userOrders[i].userRate = review.rate;
               });
+            // console.clear();
+            // console.log(userOrders);
           }
           return userOrders;
         }
