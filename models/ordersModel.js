@@ -12,6 +12,8 @@ const orderSchema = mongoose.Schema({
   amount: Number,
   totalPrice: Number,
   date: String,
+  userComment: String,
+  userRate: Number,
 });
 
 const orderModel = mongoose.model("order", orderSchema);

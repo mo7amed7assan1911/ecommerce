@@ -71,7 +71,7 @@
 <main>
   <div class="head-title">
     <div class="left">
-      <h1>Dashboard</h1>
+      <h1>Orders</h1>
     </div>
   </div>
 
@@ -108,40 +108,24 @@
             <form action="/user/updateRating" method="post">
               <td>
                 <div class="rate">
-                  <input
-                    type="radio"
-                    id="star5-<%= i %>"
-                    name="rate"
-                    value="5"
-                  />
+                  <input type="radio" id="star5-<%= i %>" name="rate" value="5"
+                  <% if (userOrders[i].userRate == 5) { %> checked <% } %> />
                   <label for="star5-<%= i %>" title="text">5 stars</label>
-                  <input
-                    type="radio"
-                    id="star4-<%= i %>"
-                    name="rate"
-                    value="4"
-                  />
+
+                  <input type="radio" id="star4-<%= i %>" name="rate" value="4"
+                  <% if (userOrders[i].userRate == 4) { %> checked <% } %> />
                   <label for="star4-<%= i %>" title="text">4 stars</label>
-                  <input
-                    type="radio"
-                    id="star3-<%= i %>"
-                    name="rate"
-                    value="3"
-                  />
+
+                  <input type="radio" id="star3-<%= i %>" name="rate" value="3"
+                  <% if (userOrders[i].userRate == 3) { %> checked <% } %> />
                   <label for="star3-<%= i %>" title="text">3 stars</label>
-                  <input
-                    type="radio"
-                    id="star2-<%= i %>"
-                    name="rate"
-                    value="2"
-                  />
+
+                  <input type="radio" id="star2-<%= i %>" name="rate" value="2"
+                  <% if (userOrders[i].userRate ==2) { %> checked <% } %> />
                   <label for="star2-<%= i %>" title="text">2 stars</label>
-                  <input
-                    type="radio"
-                    id="star1-<%= i %>"
-                    name="rate"
-                    value="1"
-                  />
+
+                  <input type="radio" id="star1-<%= i %>" name="rate" value="1"
+                  <% if (userOrders[i].userRate == 1) { %> checked <% } %> />
                   <label for="star1-<%= i %>" title="text">1 star</label>
                 </div>
               </td>
@@ -152,7 +136,9 @@
                   value="<%= userOrders[i].imagePath.split('.')[0] %>"
                 />
 
-                <textarea name="comment" id="" cols="30" rows="10"></textarea>
+                <textarea name="comment" id="" cols="30" rows="10">
+                      <%= userOrders[i].userComment %></textarea
+                >
                 <button
                   style="
                     width: 50px;

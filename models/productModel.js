@@ -243,6 +243,30 @@ function saveUserRate(productId, userRate) {
   });
 }
 
+function getLastReview(userName, productId) {
+  return new Promise((resolve, reject) => {
+    connection()
+      .then(async () => {
+        const allReviews = await item.findOne(
+          { _id: productId },
+          { reviews: 1, _id: 0 }
+        );
+        return allReviews.reviews;
+      })
+      .then((allReviews) => {
+        if (allReviews.length > 0) {
+          for (let i = 0; i < allReviews.length; i++) {
+            if (allReviews[i].userName == userName) {
+              resolve(allReviews[i]);
+            }
+          }
+        } else {
+          resolve({ comment: "", rate: 0 });
+        }
+      });
+  });
+}
+
 exports.getItemsByCategory = getItemsByCategory;
 exports.getProductDetails = getProductDetails;
 exports.editProduct = editProduct;
@@ -251,4 +275,5 @@ exports.addProductPost = addProductPost;
 exports.search = search;
 exports.changeAmount = changeAmount;
 exports.saveUserRate = saveUserRate;
+exports.getLastReview = getLastReview;
 exports.item = item;
