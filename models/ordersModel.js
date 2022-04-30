@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const dbURL = process.env.DATABASE_URL;
+const productModel = require("./productModel");
 function connection() {
   return mongoose.connect(dbURL);
 }
@@ -12,8 +13,6 @@ const orderSchema = mongoose.Schema({
   amount: Number,
   totalPrice: Number,
   date: String,
-  userComment: String,
-  userRate: Number,
 });
 
 const orderModel = mongoose.model("order", orderSchema);
@@ -93,7 +92,21 @@ function getUserOrders(userName) {
         return await orderModel.find({ userName: userName }, { userName: 0 });
       })
       .then(async (userOrders) => {
-        mongoose.disconnect();
+        if (userOrders.length > 0) {
+          for (let i = 0; i < userOrders.length; i++) {
+            const productIdStr = userOrders[i].imagePath.split(".")[0];
+            const productId = mongoose.Types.ObjectId(productIdStr);
+            await productModel
+              .getLastReview(userName, productId)
+              .then(async (review) => {
+                userOrders[i].userComment = review.comment;
+                userOrders[i].userRate = review.rate;
+              });
+          }
+          return userOrders;
+        }
+      })
+      .then((userOrders) => {
         resolve(userOrders);
       })
       .catch((error) => {

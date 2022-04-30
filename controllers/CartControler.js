@@ -70,20 +70,6 @@ async function buyCart(req, res, next) {
         console.log("File was copied");
       });
 
-      // get last review of this product
-      const productId = mongoose.Types.ObjectId(cart[i]);
-      var userReview = { comment: "", rate: 0 };
-      await productModel
-        .getLastReview(req.session.userName, productId)
-        .then((review) => {
-          if (review) {
-            userReview.comment = review.comment;
-            userReview.rate = review.rate;
-          } else {
-            console.log("not reviews found");
-          }
-        });
-
       const order = {
         id: cart[i],
         userName: req.session.userName,
@@ -92,8 +78,6 @@ async function buyCart(req, res, next) {
         amount: +req.body.amount[i],
         totalPrice: +req.body.price[i] * +req.body.amount[i],
         date: dateString,
-        userComment: userReview.comment,
-        userRate: userReview.rate,
       };
 
       const amountData = {
@@ -128,21 +112,6 @@ async function buyCart(req, res, next) {
       if (err) console.log(err);
       console.log("File was copied");
     });
-
-    // get last review of this product
-    const productId = mongoose.Types.ObjectId(req.body.cart);
-    var userReview = { comment: "", rate: 0 };
-    await productModel
-      .getLastReview(req.session.userName, productId)
-      .then((review) => {
-        if (review) {
-          userReview.comment = review.comment;
-          userReview.rate = review.rate;
-        } else {
-          console.log("not reviews found");
-        }
-      });
-
     const order = {
       id: cart,
       userName: req.session.userName,
@@ -151,8 +120,6 @@ async function buyCart(req, res, next) {
       amount: +req.body.amount,
       totalPrice: +req.body.price * +req.body.amount,
       date: dateString,
-      userComment: userReview.comment,
-      userRate: userReview.rate,
     };
 
     const amountData = {
