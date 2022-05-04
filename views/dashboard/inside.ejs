@@ -71,6 +71,7 @@
             <th>Status</th>
           </tr>
         </thead>
+        <% if (allOrders) { %>
         <tbody>
           <% for( let i = 0; i < allOrders.length; i++ ) { %>
 
@@ -93,6 +94,7 @@
 
           <% } %>
         </tbody>
+        <% } %>
       </table>
     </div>
   </div>
