@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const productModel = require("../models/productModel");
-const configFile = require("../config");
+// const configFile = require("../config");
 const fs = require("fs");
 
 function getProductPage(req, res, next) {

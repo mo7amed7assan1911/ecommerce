@@ -1,7 +1,7 @@
 const userModel = require("../models/userModel");
 const orderModel = require("../models/ordersModel");
 const productModel = require("../models/productModel");
-// const config = require("../config/config");
+// const config = require("../config");
 const fs = require("fs");
 
 async function getAdminPage(req, res) {

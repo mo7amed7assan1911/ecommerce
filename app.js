@@ -8,7 +8,8 @@ const app = express();
 const mongoose = require("mongoose");
 const path = require("path");
 // require config ;
-const config = require("./config");
+process.env.SUPPRESS_NO_CONFIG_WARNING = "y";
+const config = require("config");
 
 const fs = require("fs");
 const fileUpload = require("express-fileupload");
