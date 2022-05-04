@@ -2,7 +2,7 @@ const userModel = require("../models/userModel");
 const ordersModel = require("../models/ordersModel");
 const productModel = require("../models/productModel");
 const mongoose = require("mongoose");
-// const configFile = require("../config/config");
+const configFile = require("config");
 const fs = require("fs");
 
 function getCartPage(req, res, next) {
