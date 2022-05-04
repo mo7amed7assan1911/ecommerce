@@ -81,7 +81,6 @@ function saveProductsImage(products, search) {
     } else {
       fullPath = "./public/images/category/" + "product_" + i + ".jpg"; //jpg png
     }
-    const fullPath = "./public/images/category/" + "product_" + i + ".jpg"; //jpg png
     const imagePath = "product_" + i + ".jpg";
     fs.writeFileSync(fullPath, image);
     productData.push({
