@@ -2,12 +2,14 @@
 
 <style>
   td p {
-    max-width: 100%;
+    max-width: 300px;
     max-height: 20px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    color: black;
   }
+
   #content main .table-data .order table td {
     padding: 16px 15px;
     margin: 0 1px;
@@ -99,8 +101,17 @@
 
           <tr>
             <td style="width: 400px">
-              <img src="/images/orders/<%= userOrders[i].imagePath %>" />
-              <p style="max-width: 100%"><%= userOrders[i].title %></p>
+              <a
+                href="/product?id=<%= userOrders[i].imagePath.split('.')[0] %>"
+              >
+                <img src="/images/orders/<%= userOrders[i].imagePath %>" />
+              </a>
+
+              <a
+                href="/product?id=<%= userOrders[i].imagePath.split('.')[0] %>"
+              >
+                <p><%= userOrders[i].title %></p>
+              </a>
             </td>
             <td><%= userOrders[i].date %></td>
             <td><%= userOrders[i].amount %></td>
