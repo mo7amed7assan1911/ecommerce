@@ -1,4 +1,5 @@
 const productModel = require("../models/productModel");
+const configFile = require("../config");
 const fs = require("fs");
 
 function getHomePage(req, res, next) {
