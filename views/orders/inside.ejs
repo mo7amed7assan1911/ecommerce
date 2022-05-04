@@ -95,7 +95,7 @@
             <th style="width: 400px" class="comment-th">Comment</th>
           </tr>
         </thead>
-
+        <% if (userOrders) { %>
         <tbody>
           <% for( let i = 0; i < userOrders.length; i++ ) { %>
 
@@ -172,6 +172,7 @@
 
           <% } %>
         </tbody>
+        <% } %>
       </table>
     </div>
   </div>
