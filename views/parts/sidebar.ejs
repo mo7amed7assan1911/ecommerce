@@ -6,6 +6,39 @@
   </a>
 
   <ul class="side-menu top">
+    <% if (isAdmin) { %>
+    <li></li>
+
+    <li class="active">
+      <a href="/">
+        <i class="bx bx-home-alt"></i>
+        <span class="text">Home</span>
+      </a>
+    </li>
+
+    <li>
+      <a href="/Addproduct">
+        <i class="bx bxs-shopping-bag-alt"></i>
+        <span class="text">Add product</span>
+      </a>
+    </li>
+
+    <li>
+      <a href="/admin">
+        <i class="bx bxs-dashboard"></i>
+        <span class="text">Dashboard</span>
+      </a>
+    </li>
+
+    <li>
+      <a href="/admin/empty">
+        <i class="bx bxs-doughnut-chart"></i>
+        <span class="text">Finished Products</span>
+      </a>
+    </li>
+
+    <% } else{ %>
+
     <li class="active">
       <a href="/">
         <i class="bx bx-home-alt"></i>
@@ -47,23 +80,6 @@
         <span class="text">Baby Products</span>
       </a>
     </li>
-
-    <% if (isAdmin) { %>
-    <li>
-      <a href="/Addproduct">
-        <i class="bx bxs-shopping-bag-alt"></i>
-        <span class="text">Add product</span>
-      </a>
-    </li>
-
-    <li>
-      <a href="/admin">
-        <i class="bx bxs-dashboard"></i>
-        <span class="text">Dashboard</span>
-      </a>
-    </li>
-
-    <% } else{ %>
 
     <li>
       <a href="/cart">

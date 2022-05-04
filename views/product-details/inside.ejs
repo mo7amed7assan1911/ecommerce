@@ -42,6 +42,16 @@
     background-color: hsl(35deg 83% 53%);
     font-size: 20px;
   }
+  .empte-amount {
+    width: 50%;
+    height: 60px;
+    color: red;
+    padding: 5px;
+    font-size: 40px;
+    font-weight: bold;
+    text-align: center;
+    margin: -89px 0 0 261px;
+  }
 </style>
 <style>
   .table-data .order table td {
@@ -149,7 +159,20 @@
       <h4>EGP <%= product.price %></h4>
       <form action="/cart/addToCart" method="post">
         <input type="hidden" name="id" value="<%= product.id %>" />
+
+        <% if(product.amount > 0){ %>
         <button type="submit" class="btn">Add To Cart</button>
+        <% }else{ %>
+        <button
+          disabled
+          type="submit"
+          class="btn"
+          style="background-color: #563434"
+        >
+          Add To Cart
+        </button>
+        <div class="empte-amount">arrive soon</div>
+        <% } %>
       </form>
       <% } %>
       <br />

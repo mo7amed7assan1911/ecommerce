@@ -104,7 +104,7 @@ function saveProductImage(product) {
     imagePath: imagePath,
     amount: product.amount,
     reviews: product.reviews,
-    rating: product.total_rate / product.count_of_ratings,
+    rating: Math.round(product.total_rate / product.count_of_ratings),
   });
 
   return productData;

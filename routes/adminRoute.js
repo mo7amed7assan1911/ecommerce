@@ -9,5 +9,11 @@ route.get(
   gardAdmin.checkAdmin,
   adminController.getAdminPage
 );
+route.get(
+  "/empty",
+  gardUser.isLoggedIn,
+  gardAdmin.checkAdmin,
+  adminController.emptyProduct
+);
 
 module.exports = route;

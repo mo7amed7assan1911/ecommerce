@@ -1,0 +1,68 @@
+<!-- MAIN -->
+<main>
+  <style>
+    h4 {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      height: 22px;
+      white-space: nowrap;
+    }
+    .small-container {
+      margin-top: -50px;
+    }
+    .row-2 {
+      margin-top: 50px;
+    }
+  </style>
+
+  <div class="small-container">
+    <div class="row row-2">
+      <h2><%= resultAmount %> Results</h2>
+      <select>
+        <option>Default sort</option>
+        <option>Sort by price</option>
+        <option>Sort by rating</option>
+        <option>Sort by sale</option>
+      </select>
+    </div>
+
+    <% for( let index = 0; index < productData.length ; index += 4 ) { %>
+
+    <div class="row">
+      <% for( let i = index; i < index + 4 ; i++ ) { %>
+      <b></b>
+      <% if (productData[i]) { %>
+
+      <div class="col-4">
+        <form action="/product" method="get">
+          <input type="hidden" name="id" value="<%= productData[i].id %>" />
+          <button type="submit" style="cursor: pointer">
+            <img src="/images/empty/<%= productData[i].imagePath %>" />
+          </button>
+        </form>
+        <h4><%= productData[i].title %></h4>
+        <b>$<%= productData[i].price %></b>
+        <div class="rating">
+          <% for( let j = 0; j < productData[i].rating; j++ ) { %>
+
+          <i class="fa fa-star"></i>
+
+          <% } %> <% for( let k = 0; k < 5 - productData[i].rating; k++ ) { %>
+          <% if (k>= 0) { %>
+
+          <i class="fa fa-star-o"></i>
+
+          <% } %> <% } %>
+        </div>
+      </div>
+      <% } %>
+      <b></b>
+      <% } %>
+    </div>
+
+    <% } %>
+
+    <!--     =====================================    -->
+  </div>
+</main>
+<!-- MAIN -->

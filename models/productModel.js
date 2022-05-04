@@ -1,5 +1,8 @@
 const mongoose = require("mongoose");
-const dbURL = process.env.DATABASE_URL;
+// const dbURL = process.env.DATABASE_URL;
+const dbURL =
+  "mongodb+srv://mmymm:PrayForPalestine@ecomcluster.dfqnc.mongodb.net/eCom?retryWrites=true&w=majority";
+
 function connection() {
   return mongoose.connect(dbURL);
 }
@@ -23,17 +26,11 @@ function getItemsByCategory(category, pageNumber, isAdmin) {
   return new Promise((resolve, reject) => {
     connection()
       .then(async () => {
-        if (isAdmin) {
-          return await item
-            .find({ category: category })
-            .skip((pageNumber - 1) * 13)
-            .limit(13);
-        } else {
-          return await item
-            .find({ category: category, amount: { $gt: 0 } })
-            .skip((pageNumber - 1) * 13)
-            .limit(13);
-        }
+        // if (isAdmin) {
+        return await item
+          .find({ category: category })
+          .skip((pageNumber - 1) * 13)
+          .limit(13);
       })
       .then((products) => {
         mongoose.disconnect();
@@ -286,6 +283,25 @@ function getLastReview(userName, productId) {
   });
 }
 
+function getEmptyProducts() {
+  return new Promise((resolve, reject) => {
+    connection()
+      .then(async () => {
+        return await item.find({
+          amount: 0,
+        });
+      })
+      .then((products) => {
+        mongoose.disconnect();
+        resolve(products);
+      })
+      .catch((error) => {
+        mongoose.disconnect();
+        reject(error.message);
+      });
+  });
+}
+
 exports.getItemsByCategory = getItemsByCategory;
 exports.getProductDetails = getProductDetails;
 exports.editProduct = editProduct;
@@ -295,4 +311,5 @@ exports.search = search;
 exports.changeAmount = changeAmount;
 exports.saveUserRate = saveUserRate;
 exports.getLastReview = getLastReview;
+exports.getEmptyProducts = getEmptyProducts;
 exports.item = item;

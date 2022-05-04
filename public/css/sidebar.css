@@ -458,10 +458,10 @@ body {
   background: var(--blue);
 }
 #content main .table-data .order table tr td .status.process {
-  background: var(--yellow);
+  background: hsl(35deg 83% 53%);
 }
 #content main .table-data .order table tr td .status.pending {
-  background: var(--orange);
+  background: hsl(1deg 61% 47%);
 }
 
 #content main .table-data .todo {

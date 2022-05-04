@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
-const dbURL = process.env.DATABASE_URL;
+// const dbURL = process.env.DATABASE_URL;
+const dbURL = "mongodb+srv://mmymm:PrayForPalestine@ecomcluster.dfqnc.mongodb.net/eCom?retryWrites=true&w=majority"
 const productModel = require("./productModel");
 function connection() {
   return mongoose.connect(dbURL, { useNewUrlParser: true });

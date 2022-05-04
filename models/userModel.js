@@ -3,7 +3,10 @@ const bcrypt = require("bcrypt");
 const e = require("connect-flash");
 const productModel = require("../models/productModel");
 
-const dbURL = process.env.DATABASE_URL;
+// const dbURL = process.env.DATABASE_URL;
+const dbURL =
+  "mongodb+srv://mmymm:PrayForPalestine@ecomcluster.dfqnc.mongodb.net/eCom?retryWrites=true&w=majority";
+
 function connection() {
   return mongoose.connect(dbURL);
 }
