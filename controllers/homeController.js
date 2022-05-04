@@ -28,7 +28,7 @@ function getHomePage(req, res, next) {
       productModel
         .getItemsByCategory(category, page, req.session.isAdmin)
         .then((products) => {
-          const productData = saveProductsImage(products);
+          const productData = saveProductsImage(products, false);
           res.render("categoryPage", {
             productData: productData,
             page: page,
@@ -53,7 +53,7 @@ function search(req, res) {
     productModel
       .search(title, req.session.isAdmin)
       .then((products) => {
-        const productData = saveProductsImage(products);
+        const productData = saveProductsImage(products, true);
         res.render("search", {
           productData: productData,
           page: 1,
@@ -71,10 +71,16 @@ function search(req, res) {
   }
 }
 
-function saveProductsImage(products) {
+function saveProductsImage(products, search) {
   const productData = [];
   for (let i = 0; i < products.length; i++) {
     image = products[i].image;
+    var fullPath = "";
+    if (search) {
+      fullPath = "./public/images/search/" + "product_" + i + ".jpg"; //jpg png
+    } else {
+      fullPath = "./public/images/category/" + "product_" + i + ".jpg"; //jpg png
+    }
     const fullPath = "./public/images/category/" + "product_" + i + ".jpg"; //jpg png
     const imagePath = "product_" + i + ".jpg";
     fs.writeFileSync(fullPath, image);
