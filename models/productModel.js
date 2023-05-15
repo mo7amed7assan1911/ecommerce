@@ -1,6 +1,8 @@
-const res = require("express/lib/response");
 const mongoose = require("mongoose");
-const dbURL = process.env.DATABASE_URL;
+// const dbURL = process.env.DATABASE_URL;
+const dbURL =
+  "mongodb+srv://mmymm:PrayForPalestine@ecomcluster.dfqnc.mongodb.net/eCom?retryWrites=true&w=majority";
+
 function connection() {
   return mongoose.connect(dbURL);
 }
@@ -15,14 +17,16 @@ const itemSchema = mongoose.Schema({
   total_rate: Number,
   count_of_ratings: Number,
   reviews: Array,
+  amount: Number,
 });
 
 const item = mongoose.model("item", itemSchema);
 
-function getItemsByCategory(category, pageNumber) {
+function getItemsByCategory(category, pageNumber, isAdmin) {
   return new Promise((resolve, reject) => {
     connection()
       .then(async () => {
+        // if (isAdmin) {
         return await item
           .find({ category: category })
           .skip((pageNumber - 1) * 13)
@@ -50,6 +54,10 @@ function getProductDetails(productId) {
             price: 1,
             image: 1,
             category: 1,
+            amount: 1,
+            reviews: 1,
+            total_rate: 1,
+            count_of_ratings: 1,
           }
         );
       })
@@ -76,6 +84,7 @@ function editProduct(product) {
               title: product.title,
               price: product.price,
               image: product.image,
+              amount: product.amount,
             }
           );
         } else {
@@ -84,6 +93,7 @@ function editProduct(product) {
             {
               title: product.title,
               price: product.price,
+              amount: product.amount,
             }
           );
         }
@@ -135,12 +145,150 @@ function addProductPost(product) {
   });
 }
 
-function search(titleSearch) {
+function search(titleSearch, isAdmin) {
+  return new Promise((resolve, reject) => {
+    connection()
+      .then(async () => {
+        if (isAdmin) {
+          return await item.find({
+            title: { $regex: titleSearch, $options: "i" },
+          });
+        } else {
+          return await item.find({
+            title: { $regex: titleSearch, $options: "i" },
+            amount: { $gt: 0 },
+          });
+        }
+      })
+      .then((products) => {
+        mongoose.disconnect();
+        resolve(products);
+      })
+      .catch((error) => {
+        mongoose.disconnect();
+        reject(error.message);
+      });
+  });
+}
+
+function changeAmount(amountData) {
+  return new Promise((resolve, reject) => {
+    connection()
+      .then(async () => {
+        return await item.findOne(
+          { _id: amountData.id },
+          { _id: 0, amount: 1 }
+        );
+      })
+      .then(async (oldAmount) => {
+        console.log(`oldAmount >>> ${oldAmount.amount}`);
+        const newAmount = oldAmount.amount - amountData.amount;
+        return await item.updateOne(
+          { _id: amountData.id },
+          { amount: newAmount }
+        );
+      })
+      .then(() => {
+        mongoose.disconnect();
+        resolve("amount apdated successfully");
+      })
+      .catch((error) => {
+        mongoose.disconnect();
+        reject(error.message);
+      });
+  });
+}
+
+function saveUserRate(productId, userRate) {
+  const newProductId = mongoose.Types.ObjectId(productId);
+
+  return new Promise((resolve, reject) => {
+    connection()
+      .then(async () => {
+        return await item.findOne(
+          { _id: newProductId },
+          { reviews: 1, total_rate: 1, count_of_ratings: 1 }
+        );
+      })
+      .then(async (product) => {
+        var reviews = product.reviews;
+        if (reviews.length > 0) {
+          for (let i = 0; i < reviews.length; i++) {
+            if (reviews[i].userName == userRate.userName) {
+              const oldUserRate = reviews[i].rate;
+              product.total_rate -= oldUserRate;
+              product.total_rate += userRate.rate;
+
+              reviews[i].rate = userRate.rate;
+              reviews[i].comment = userRate.comment;
+
+              return product;
+            }
+          }
+          reviews.push(userRate);
+          product.total_rate += userRate.rate;
+          product.count_of_ratings += 1;
+          return product;
+        } else {
+          reviews.push(userRate);
+          product.total_rate += userRate.rate;
+          product.count_of_ratings += 1;
+          return product;
+        }
+      })
+      .then(async (newProduct) => {
+        await item.updateOne(
+          { _id: newProductId },
+          {
+            total_rate: newProduct.total_rate,
+            count_of_ratings: newProduct.count_of_ratings,
+            reviews: newProduct.reviews,
+          }
+        );
+      })
+      .then(() => {
+        resolve("rating updated successfully");
+      })
+      .catch((error) => {
+        mongoose.disconnect();
+        reject(error.message);
+      });
+  });
+}
+
+function getLastReview(userName, productId) {
+  return new Promise((resolve, reject) => {
+    connection()
+      .then(async () => {
+        const allReviews = await item.findOne(
+          { _id: productId },
+          { reviews: 1, _id: 0 }
+        );
+        return allReviews.reviews;
+      })
+      .then((allReviews) => {
+        if (allReviews.length > 0) {
+          for (let i = 0; i < allReviews.length; i++) {
+            if (allReviews[i].userName == userName) {
+              resolve(allReviews[i]);
+            } else {
+              continue;
+            }
+          }
+          resolve({ comment: "", rate: 0 });
+        } else {
+          resolve({ comment: "", rate: 0 });
+        }
+      });
+  });
+}
+
+function getEmptyProducts() {
   return new Promise((resolve, reject) => {
     connection()
       .then(async () => {
         return await item.find({
-          title: { $regex: titleSearch, $options: "i" },
+          amount: 0,
         });
       })
       .then((products) => {
@@ -160,4 +308,8 @@ exports.editProduct = editProduct;
 exports.deleteProduct = deleteProduct;
 exports.addProductPost = addProductPost;
 exports.search = search;
+exports.changeAmount = changeAmount;
+exports.saveUserRate = saveUserRate;
+exports.getLastReview = getLastReview;
+exports.getEmptyProducts = getEmptyProducts;
 exports.item = item;

@@ -1,6 +1,8 @@
 const userModel = require("../models/userModel");
 const ordersModel = require("../models/ordersModel");
+const productModel = require("../models/productModel");
 const mongoose = require("mongoose");
+const configFile = require("config");
 const fs = require("fs");
 
 function getCartPage(req, res, next) {
@@ -41,7 +43,7 @@ async function removeFromCart(req, res, next) {
   await userModel
     .removeFromCart(userId, productId)
     .then((result) => {
-      // console.log(result);
+      console.log(result);
       res.redirect("/cart");
     })
     .catch((error) => {
@@ -59,21 +61,38 @@ async function buyCart(req, res, next) {
 
   if (typeof req.body.title == "object") {
     for (let i = 0; i < cart.length; i++) {
+      if (req.body.amount[i] == 0) {
+        return res.redirect("/cart");
+      }
       const oldImagePath = req.body.imagePath[i];
       const newPath = "./public/images/orders/" + cart[i] + ".jpg";
       fs.copyFile(oldImagePath, newPath, (err) => {
         if (err) console.log(err);
         console.log("File was copied");
       });
+
       const order = {
         id: cart[i],
         userName: req.session.userName,
-        imagePath: "images/orders/" + cart[i] + ".jpg",
+        imagePath: cart[i] + ".jpg",
         title: req.body.title[i],
         amount: +req.body.amount[i],
         totalPrice: +req.body.price[i] * +req.body.amount[i],
         date: dateString,
       };
+
+      const amountData = {
+        id: mongoose.Types.ObjectId(cart[i]),
+        amount: +req.body.amount[i],
+      };
+      await productModel
+        .changeAmount(amountData)
+        .then((result) => {
+          console.log(result);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
 
       await ordersModel
         .saveOrder(order)
@@ -85,6 +104,9 @@ async function buyCart(req, res, next) {
         });
     }
   } else {
+    if (req.body.amount == 0) {
+      return res.redirect("/cart");
+    }
     const oldImagePath = req.body.imagePath;
     const newPath = "./public/images/orders/" + cart + ".jpg";
     fs.copyFile(oldImagePath, newPath, (err) => {
@@ -94,12 +116,26 @@ async function buyCart(req, res, next) {
     const order = {
       id: cart,
       userName: req.session.userName,
-      imagePath: "images/orders/" + cart + ".jpg",
+      imagePath: cart + ".jpg",
       title: req.body.title,
       amount: +req.body.amount,
       totalPrice: +req.body.price * +req.body.amount,
       date: dateString,
     };
+
+    const amountData = {
+      id: mongoose.Types.ObjectId(req.body.cart),
+      amount: +req.body.amount,
+    };
+
+    await productModel
+      .changeAmount(amountData)
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
 
     await ordersModel
       .saveOrder(order)
@@ -133,6 +169,7 @@ function saveItemsImage(items) {
       title: items[i].title,
       price: items[i].price,
       imagePath: imagePath,
+      amount: items[i].amount,
     });
   }
   return cartItems;

@@ -7,6 +7,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    color: black;
   }
   #content main .table-data .order table td {
     padding: 16px 46px;
@@ -70,13 +71,19 @@
             <th>Status</th>
           </tr>
         </thead>
+        <% if (allOrders) { %>
         <tbody>
           <% for( let i = 0; i < allOrders.length; i++ ) { %>
 
           <tr>
             <td>
-              <img src="<%= allOrders[i].imagePath %>" />
-              <p><%= allOrders[i].title %></p>
+              <a href="/product?id=<%= allOrders[i].imagePath.split('.')[0] %>">
+                <img src="/images/orders/<%= allOrders[i].imagePath %>" />
+              </a>
+
+              <a href="/product?id=<%= allOrders[i].imagePath.split('.')[0] %>">
+                <p><%= allOrders[i].title %></p>
+              </a>
             </td>
             <td><%= allOrders[i].date %></td>
             <td><%= allOrders[i].amount %></td>
@@ -87,6 +94,7 @@
 
           <% } %>
         </tbody>
+        <% } %>
       </table>
     </div>
   </div>

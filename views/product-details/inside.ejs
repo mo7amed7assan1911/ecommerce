@@ -25,13 +25,7 @@
     background-color: hsl(1deg 61% 47%);
     font-size: 20px;
   }
-  form .edit {
-    margin-left: 10px;
-    width: 150px;
-    height: 50px;
-    background-color: hsl(35deg 83% 53%);
-    font-size: 20px;
-  }
+
   form .file {
     margin-left: 20px;
     width: 135px;
@@ -39,6 +33,43 @@
     cursor: pointer;
     font-size: 15pt;
     border: none;
+  }
+
+  form .edit {
+    margin-left: 35px;
+    width: 400px;
+    height: 50px;
+    background-color: hsl(35deg 83% 53%);
+    font-size: 20px;
+  }
+  .empte-amount {
+    width: 50%;
+    height: 60px;
+    color: red;
+    padding: 5px;
+    font-size: 40px;
+    font-weight: bold;
+    text-align: center;
+    margin: -89px 0 0 261px;
+  }
+</style>
+<style>
+  .table-data .order table td {
+    padding: 16px 15px;
+    margin: 0 1px;
+    text-align: center;
+  }
+  .table-data .order table th {
+    padding-bottom: 12px;
+    padding-top: 12px;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    border-bottom: 1px solid var(--grey);
+    background: #3c91e6;
+  }
+  .fa {
+    font-size: 20px;
   }
 </style>
 
@@ -53,7 +84,25 @@
       />
     </div>
     <div class="col-2">
-      <h5>Home / <%= product.category %></h5>
+      <h3>
+        Home / <%= product.category %>
+
+        <div class="rating" style="display: inline; margin-left: 70px">
+          <% for( let j = 0; j < product.rating; j++ ) { %>
+
+          <i class="fa fa-star" style="font-size: 28px"></i>
+
+          <% } %> <% for( let k = 0; k < 5 - product.rating; k++ ) { %> <% if (k
+          >= 0) { %>
+
+          <i class="fa fa-star-o" style="font-size: 30px"></i>
+
+          <% } %> <% } %>
+        </div>
+      </h3>
+      <br />
+      <br />
+
       <br />
       <% if (isAdmin) { %>
       <form
@@ -62,18 +111,43 @@
         enctype="multipart/form-data"
       >
         <textarea name="title"><%= product.title %></textarea>
-        <input
-          class="price"
-          type="number"
-          name="price"
-          value="<%= product.price %>"
-        />
-        <input type="file" class="file" name="image" />
+        <div>
+          <label for="" style="margin-right: 202px; font-size: 25px"
+            >Change price</label
+          >
+          <input
+            class="price"
+            type="number"
+            name="price"
+            value="<%= product.price %>"
+          />
+        </div>
+        <div>
+          <label for="" style="margin-right: 171px; font-size: 25px"
+            >Change amount</label
+          >
+          <input
+            class="price"
+            type="number"
+            name="amount"
+            value="<%= product.amount %>"
+            min="0"
+          />
+        </div>
+
+        <div>
+          <label for="" style="margin-right: 140px; font-size: 25px"
+            >Change image</label
+          >
+          <input type="file" class="file" name="image" />
+        </div>
+
         <input type="hidden" name="id" value="<%= product.id %>" />
         <button type="submit" class="edit btn">Save</button>
       </form>
       <br />
       <hr />
+      <br />
 
       <form action="/product/deleteProduct" method="post">
         <input type="hidden" name="id" value="<%= product.id %>" />
@@ -85,12 +159,77 @@
       <h4>EGP <%= product.price %></h4>
       <form action="/cart/addToCart" method="post">
         <input type="hidden" name="id" value="<%= product.id %>" />
+
+        <% if(product.amount > 0){ %>
         <button type="submit" class="btn">Add To Cart</button>
+        <% }else{ %>
+        <button
+          disabled
+          type="submit"
+          class="btn"
+          style="background-color: #563434"
+        >
+          Add To Cart
+        </button>
+        <div class="empte-amount">arrive soon</div>
+        <% } %>
       </form>
       <% } %>
       <br />
     </div>
   </div>
-</div>
 
-<!-- MAIN -->
+  <!-- ======================================================================================= -->
+  <!-- ====================================  Comments  ======================================= -->
+  <!-- ========================================================================================-->
+  <div class="table-data">
+    <div class="order">
+      <div class="head">
+        <h3>Reviews</h3>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>User</th>
+            <th></th>
+            <th>Rating</th>
+            <th></th>
+            <th></th>
+            <th>Comment</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for( let i = 0; i < product.reviews.length; i++ ) { %>
+          <tr>
+            <td>
+              <!-- <img src="/images/user/account.png" /> -->
+              <b><%= product.reviews[i].userName %> </b>
+            </td>
+            <td></td>
+            <td>
+              <div class="rating">
+                <% for( let j = 0; j < product.reviews[i].rate; j++ ) { %>
+
+                <i class="fa fa-star"></i>
+
+                <% } %> <% for( let k = 0; k < 5 - product.reviews[i].rate; k++
+                ) { %> <% if (k >= 0) { %>
+
+                <i class="fa fa-star-o"></i>
+
+                <% } %> <% } %>
+              </div>
+            </td>
+            <td></td>
+            <td></td>
+            <td><%= product.reviews[i].comment %></td>
+            <td></td>
+          </tr>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <!-- ====================================  Comments  ======================================= -->
+</div>

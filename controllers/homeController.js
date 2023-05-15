@@ -1,4 +1,5 @@
 const productModel = require("../models/productModel");
+const configFile = require("config");
 const fs = require("fs");
 
 function getHomePage(req, res, next) {
@@ -25,9 +26,9 @@ function getHomePage(req, res, next) {
     ];
     if (categoryies.includes(category)) {
       productModel
-        .getItemsByCategory(category, page)
+        .getItemsByCategory(category, page, req.session.isAdmin)
         .then((products) => {
-          const productData = saveProductsImage(products);
+          const productData = saveProductsImage(products, false);
           res.render("categoryPage", {
             productData: productData,
             page: page,
@@ -50,9 +51,9 @@ function search(req, res) {
   if (req.query && req.query.search != "") {
     title = req.query.search;
     productModel
-      .search(title)
+      .search(title, req.session.isAdmin)
       .then((products) => {
-        const productData = saveProductsImage(products);
+        const productData = saveProductsImage(products, true);
         res.render("search", {
           productData: productData,
           page: 1,
@@ -70,11 +71,16 @@ function search(req, res) {
   }
 }
 
-function saveProductsImage(products) {
+function saveProductsImage(products, search) {
   const productData = [];
   for (let i = 0; i < products.length; i++) {
     image = products[i].image;
-    const fullPath = "./public/images/category/" + "product_" + i + ".jpg"; //jpg png
+    var fullPath = "";
+    if (search) {
+      fullPath = "./public/images/search/" + "product_" + i + ".jpg"; //jpg png
+    } else {
+      fullPath = "./public/images/category/" + "product_" + i + ".jpg"; //jpg png
+    }
     const imagePath = "product_" + i + ".jpg";
     fs.writeFileSync(fullPath, image);
     productData.push({
@@ -82,6 +88,7 @@ function saveProductsImage(products) {
       title: products[i].title,
       price: products[i].price,
       imagePath: imagePath,
+      rating: products[i].total_rate / products[i].count_of_ratings,
     });
   }
   return productData;

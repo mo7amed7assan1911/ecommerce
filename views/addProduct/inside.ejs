@@ -25,6 +25,9 @@
     font-weight: bold;
     margin-right: 30px;
   }
+  #content main .table-data > div {
+    background-color: #ddd;
+  }
 </style>
 <main>
   <div class="table-data">
@@ -68,10 +71,28 @@
                   name="price"
                   required
                   min="1"
+                  value="1"
                 />
                 EGP
               </td>
               <td><p>the price has no floating point.</p></td>
+            </tr>
+
+            <tr class="amount-row">
+              <td>
+                <label for="">add the amount of product </label>
+              </td>
+              <td>
+                <input
+                  class="price"
+                  type="number"
+                  name="amount"
+                  required
+                  min="1"
+                  value="1"
+                />
+              </td>
+              <td><p></p></td>
             </tr>
 
             <tr class="category-row">

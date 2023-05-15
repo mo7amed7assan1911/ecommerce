@@ -1,19 +1,20 @@
 const route = require("express").Router();
-const adminController = require("../controllers/adminController");
+const userController = require("../controllers/userController");
 const gardUser = require("./guard/checkUser");
 const gardAdmin = require("./guard/checkAdmin");
 
 route.get(
-  "/",
+  "/orders",
   gardUser.isLoggedIn,
-  gardAdmin.checkAdmin,
-  adminController.getAdminPage
+  gardAdmin.isNotAdmin,
+  userController.getOrdersPage
 );
-route.get(
-  "/empty",
+
+route.post(
+  "/updateRating",
   gardUser.isLoggedIn,
-  gardAdmin.checkAdmin,
-  adminController.emptyProduct
+  gardAdmin.isNotAdmin,
+  userController.updateRating
 );
 
 module.exports = route;

@@ -7,6 +7,10 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const path = require("path");
+// require config ;
+process.env.SUPPRESS_NO_CONFIG_WARNING = "y";
+const config = require("config");
+
 const fs = require("fs");
 const fileUpload = require("express-fileupload");
 
@@ -26,7 +30,8 @@ const session = require("express-session");
 const sessionStore = require("connect-mongodb-session")(session);
 const flash = require("connect-flash");
 const store = new sessionStore({
-  uri: process.env.DATABASE_URL,
+  // uri: process.env.DATABASE_URL,
+  uri: "mongodb+srv://mmymm:PrayForPalestine@ecomcluster.dfqnc.mongodb.net/eCom?retryWrites=true&w=majority",
   collection: "sessions",
 });
 
@@ -47,6 +52,7 @@ const productRoutes = require("./routes/productRoutes");
 const cartRoutes = require("./routes/cartRoutes");
 const loginRoutes = require("./routes/loginRoutes");
 const adminRoute = require("./routes/adminRoute");
+const userRoute = require("./routes/userRoute");
 
 // ========= use routes ==================
 app.use("/", homeRout);
@@ -54,6 +60,7 @@ app.use("/product", productRoutes);
 app.use("/cart", cartRoutes);
 app.use("/login", loginRoutes);
 app.use("/admin", adminRoute);
+app.use("/user", userRoute);
 
 //
 app.listen(port, (err) => {

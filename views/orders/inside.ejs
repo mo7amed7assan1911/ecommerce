@@ -1,0 +1,180 @@
+<!-- MAIN -->
+
+<style>
+  td p {
+    max-width: 300px;
+    max-height: 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: black;
+  }
+
+  #content main .table-data .order table td {
+    padding: 16px 15px;
+    margin: 0 1px;
+  }
+  #content main .table-data .order table th {
+    padding-bottom: 12px;
+    padding-top: 12px;
+    font-size: 13px;
+    text-align: center;
+    border-bottom: 1px solid var(--grey);
+    background: #3c91e6;
+  }
+
+  textarea {
+    height: 50px;
+    padding: 5px;
+    resize: none;
+    position: absolute;
+    right: 80px;
+    top: 15px;
+    left: 25px;
+  }
+
+  .rate {
+    float: left;
+    height: 46px;
+    padding: 0 20px 0 35px;
+  }
+  .rate:not(:checked) > input {
+    position: absolute;
+    top: -9999px;
+  }
+  .rate:not(:checked) > label {
+    float: right;
+    width: 1em;
+    overflow: hidden;
+    white-space: nowrap;
+    cursor: pointer;
+    font-size: 30px;
+    color: #ccc;
+  }
+  .rate:not(:checked) > label:before {
+    content: "★ ";
+  }
+  .rate > input:checked ~ label {
+    color: #ffc700;
+  }
+  .rate:not(:checked) > label:hover,
+  .rate:not(:checked) > label:hover ~ label {
+    color: #deb217;
+  }
+  .rate > input:checked + label:hover,
+  .rate > input:checked + label:hover ~ label,
+  .rate > input:checked ~ label:hover,
+  .rate > input:checked ~ label:hover ~ label,
+  .rate > label:hover ~ input:checked ~ label {
+    color: #c59b08;
+  }
+</style>
+
+<main>
+  <div class="head-title">
+    <div class="left">
+      <h1>Orders</h1>
+    </div>
+  </div>
+
+  <div class="table-data">
+    <div class="order">
+      <div class="head">
+        <h3>Recent Orders</h3>
+        <i class="bx bx-search"></i>
+        <i class="bx bx-filter"></i>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Order</th>
+            <th>Date Order</th>
+            <th>amount</th>
+            <th>Total price</th>
+            <th>Rating</th>
+            <th style="width: 400px" class="comment-th">Comment</th>
+          </tr>
+        </thead>
+        <% if (userOrders) { %>
+        <tbody>
+          <% for( let i = 0; i < userOrders.length; i++ ) { %>
+
+          <tr>
+            <td style="width: 400px">
+              <a
+                href="/product?id=<%= userOrders[i].imagePath.split('.')[0] %>"
+              >
+                <img src="/images/orders/<%= userOrders[i].imagePath %>" />
+              </a>
+
+              <a
+                href="/product?id=<%= userOrders[i].imagePath.split('.')[0] %>"
+              >
+                <p><%= userOrders[i].title %></p>
+              </a>
+            </td>
+            <td><%= userOrders[i].date %></td>
+            <td><%= userOrders[i].amount %></td>
+            <td><%= userOrders[i].totalPrice %></td>
+            <form action="/user/updateRating" method="post">
+              <td>
+                <div class="rate">
+                  <input type="radio" id="star5-<%= i %>" name="rate" value="5"
+                  <% if (userOrders[i].userRate == 5) { %> checked <% } %> />
+                  <label for="star5-<%= i %>" title="text">5 stars</label>
+
+                  <input type="radio" id="star4-<%= i %>" name="rate" value="4"
+                  <% if (userOrders[i].userRate == 4) { %> checked <% } %> />
+                  <label for="star4-<%= i %>" title="text">4 stars</label>
+
+                  <input type="radio" id="star3-<%= i %>" name="rate" value="3"
+                  <% if (userOrders[i].userRate == 3) { %> checked <% } %> />
+                  <label for="star3-<%= i %>" title="text">3 stars</label>
+
+                  <input type="radio" id="star2-<%= i %>" name="rate" value="2"
+                  <% if (userOrders[i].userRate ==2) { %> checked <% } %> />
+                  <label for="star2-<%= i %>" title="text">2 stars</label>
+
+                  <input type="radio" id="star1-<%= i %>" name="rate" value="1"
+                  <% if (userOrders[i].userRate == 1) { %> checked <% } %> />
+                  <label for="star1-<%= i %>" title="text">1 star</label>
+                </div>
+              </td>
+              <td style="position: relative">
+                <input
+                  type="hidden"
+                  name="id"
+                  value="<%= userOrders[i].imagePath.split('.')[0] %>"
+                />
+
+                <textarea name="comment">
+<%= userOrders[i].userComment %></textarea
+                >
+                <button
+                  style="
+                    width: 50px;
+                    height: 30px;
+                    padding: 0 5px;
+                    border-radius: 10px;
+                    background-color: #3c91e6;
+                    margin-left: -20px;
+                    position: absolute;
+                    right: 0;
+                    top: 25px;
+                  "
+                  type="submit"
+                >
+                  Send
+                </button>
+              </td>
+            </form>
+          </tr>
+
+          <% } %>
+        </tbody>
+        <% } %>
+      </table>
+    </div>
+  </div>
+</main>
+<script src="../js/sidebar.js"></script>
